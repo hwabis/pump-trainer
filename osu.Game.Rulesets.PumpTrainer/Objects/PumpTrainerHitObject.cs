@@ -9,5 +9,28 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
     public class PumpTrainerHitObject : HitObject
     {
         public override Judgement CreateJudgement() => new Judgement();
+
+        public Foot IntendedFoot;
+        public Column Column;
+    }
+
+    public enum Column
+    {
+        P1DL,
+        P1UL,
+        P1C,
+        P1UR,
+        P1DR,
+        P2DL,
+        P2UL,
+        P2C,
+        P2UR,
+        P2DR,
+    }
+
+    public enum Foot
+    {
+        Left,
+        Right,
     }
 }

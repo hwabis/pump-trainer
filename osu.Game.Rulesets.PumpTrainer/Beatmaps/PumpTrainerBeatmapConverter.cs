@@ -11,22 +11,20 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
+        private NextHitObjectGenerator generator = new([Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C]); // TODO
+
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
         {
         }
 
-        // todo: Check for conversion types that should be supported (ie. Beatmap.HitObjects.Any(h => h is IHasXPosition))
-        // https://github.com/ppy/osu/tree/master/osu.Game/Rulesets/Objects/Types
         public override bool CanConvert() => true;
 
         protected override IEnumerable<PumpTrainerHitObject> ConvertHitObject(HitObject original, IBeatmap beatmap, CancellationToken cancellationToken)
         {
-            yield return new PumpTrainerHitObject
-            {
-                Samples = original.Samples,
-                StartTime = original.StartTime,
-            };
+            PumpTrainerHitObject convertedHitObject = generator.GetNextHitObject(original, beatmap);
+
+            yield return convertedHitObject;
         }
     }
 }
