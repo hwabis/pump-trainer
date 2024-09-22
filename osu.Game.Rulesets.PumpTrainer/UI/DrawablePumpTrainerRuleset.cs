@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
         public DrawablePumpTrainerRuleset(PumpTrainerRuleset ruleset, IBeatmap beatmap, IReadOnlyList<Mod> mods = null)
             : base(ruleset, beatmap, mods)
         {
-            Direction.Value = ScrollingDirection.Left;
+            Direction.Value = ScrollingDirection.Up;
             TimeRange.Value = 6000;
         }
 

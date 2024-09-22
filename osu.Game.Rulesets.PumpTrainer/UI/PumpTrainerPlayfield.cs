@@ -15,6 +15,7 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
         {
             AddRangeInternal(new Drawable[]
             {
+                // todo: top row
                 HitObjectContainer,
             });
         }

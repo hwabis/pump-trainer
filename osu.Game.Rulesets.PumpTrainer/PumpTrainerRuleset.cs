@@ -29,6 +29,7 @@ namespace osu.Game.Rulesets.PumpTrainer
 
         public override IEnumerable<Mod> GetModsFor(ModType type)
         {
+            // TODO if no mods are selected then choose default set of notes
             switch (type)
             {
                 case ModType.Automation:
