@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Objects;
+using osu.Game.Rulesets.Objects.Types;
 using osu.Game.Rulesets.PumpTrainer.Objects;
 
 namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
@@ -22,9 +23,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         protected override IEnumerable<PumpTrainerHitObject> ConvertHitObject(HitObject original, IBeatmap beatmap, CancellationToken cancellationToken)
         {
-            PumpTrainerHitObject convertedHitObject = generator.GetNextHitObject(original, beatmap);
+            yield return generator.GetNextHitObject(original.StartTime, beatmap);
 
-            yield return convertedHitObject;
+            if (original is IHasDuration hasDuration)
+            {
+                yield return generator.GetNextHitObject(hasDuration.EndTime, beatmap);
+            }
         }
     }
 }

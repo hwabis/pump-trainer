@@ -68,7 +68,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             this.allowedColumns = allowedColumns;
         }
 
-        public PumpTrainerHitObject GetNextHitObject(HitObject original, IBeatmap beatmap)
+        public PumpTrainerHitObject GetNextHitObject(double startTime, IBeatmap beatmap)
         {
             // Always start on the left foot as the first note (for now?)
             Foot nextFoot = previousFoot == null || previousFoot == Foot.Right ? Foot.Left : Foot.Right;
@@ -82,8 +82,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 IntendedFoot = nextFoot,
                 Column = nextColumn,
 
-                Samples = original.Samples,
-                StartTime = original.StartTime
+                StartTime = startTime,
             };
 
             hitObjectsSoFar.Add(nextHitObject);
