@@ -1,15 +1,12 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Collections.Generic;
-using System.Reflection.Metadata;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Game.Rulesets.Objects.Drawables;
 using osuTK;
-using osuTK.Graphics;
 
 namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 {
@@ -22,10 +19,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
         {
             Size = new Vector2(width);
             Origin = Anchor.TopCentre;
+            Anchor = Anchor.TopCentre;
 
-            X = (int) HitObject.Column * width;
+            // Indexes 0 to 9 so midpoint is 4.5
+            X = (float)((int)HitObject.Column - 4.5) * width;
         }
- 
+
         [BackgroundDependencyLoader]
         private void load(TextureStore textures)
         {
@@ -78,18 +77,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 
         protected override void UpdateHitStateTransforms(ArmedState state)
         {
-            const double duration = 1000;
-
             switch (state)
             {
                 case ArmedState.Hit:
-                    this.FadeOut(duration, Easing.OutQuint).Expire();
+                    this.FadeOut().Expire(); // todo i guess
                     break;
 
                 case ArmedState.Miss:
-
-                    this.FadeColour(Color4.Red, duration);
-                    this.FadeOut(duration, Easing.InQuint).Expire();
+                    // todo ?
                     break;
             }
         }

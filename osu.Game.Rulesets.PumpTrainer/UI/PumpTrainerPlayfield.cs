@@ -13,6 +13,11 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
         [BackgroundDependencyLoader]
         private void load()
         {
+            HitObjectContainer.Margin = new()
+            {
+                Top = 50,
+            };
+
             AddRangeInternal(new Drawable[]
             {
                 // todo: top row

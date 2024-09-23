@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
             : base(ruleset, beatmap, mods)
         {
             Direction.Value = ScrollingDirection.Up;
-            TimeRange.Value = 6000;
+            TimeRange.Value = 2500; // todo but i am so confused what this number actually means
         }
 
         protected override Playfield CreatePlayfield() => new PumpTrainerPlayfield();
