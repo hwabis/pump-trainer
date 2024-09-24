@@ -28,44 +28,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
         [BackgroundDependencyLoader]
         private void load(TextureStore textures)
         {
-            string textureString;
-
-            switch (HitObject.Column)
-            {
-                case Column.P1DL:
-                case Column.P1DR:
-                case Column.P2DL:
-                case Column.P2DR:
-                    textureString = "DL";
-                    break;
-                case Column.P1UL:
-                case Column.P1UR:
-                case Column.P2UL:
-                case Column.P2UR:
-                    textureString = "UL";
-                    break;
-                default:
-                    textureString = "C";
-                    break;
-            }
-
-            Sprite sprite = new()
-            {
-                RelativeSizeAxes = Axes.Both,
-                Texture = textures.Get(textureString),
-            };
-
-            switch (HitObject.Column)
-            {
-                case Column.P1UR:
-                case Column.P1DR:
-                case Column.P2UR:
-                case Column.P2DR:
-                    Scale = new(-1, 1);
-                    break;
-            }
-
-            AddInternal(sprite);
+            AddInternal(HitObject.ToSprite(textures));
         }
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)

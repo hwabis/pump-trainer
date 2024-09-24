@@ -3,6 +3,7 @@
 
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Game.Rulesets.UI.Scrolling;
 
 namespace osu.Game.Rulesets.PumpTrainer.UI
@@ -20,7 +21,10 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
 
             AddRangeInternal(new Drawable[]
             {
-                // todo: top row
+                new FillFlowContainer()
+                {
+
+                },
                 HitObjectContainer,
             });
         }

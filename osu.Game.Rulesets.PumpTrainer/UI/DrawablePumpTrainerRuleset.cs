@@ -24,7 +24,8 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
             : base(ruleset, beatmap, mods)
         {
             Direction.Value = ScrollingDirection.Up;
-            TimeRange.Value = 4000; // todo but i am so confused what this number actually means
+            TimeRange.Value = 1000; // todo
+            // still have no idea what this number means. but apparently you can use F3 and F4 to adjust scroll speed
         }
 
         protected override Playfield CreatePlayfield() => new PumpTrainerPlayfield();

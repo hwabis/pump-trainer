@@ -52,7 +52,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2DR, Column.P1DL },
         };
 
-        private static Random random = new(0); // TODO
+        private static Random random = new(); // TODO seedable
 
         private List<PumpTrainerHitObject> hitObjectsSoFar = [];
 
