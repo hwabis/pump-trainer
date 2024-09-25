@@ -25,11 +25,12 @@ namespace osu.Game.Rulesets.PumpTrainer
 
         public override IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap) => new PumpTrainerBeatmapConverter(beatmap, this);
 
+        // todo yeah no this is impossible
         public override DifficultyCalculator CreateDifficultyCalculator(IWorkingBeatmap beatmap) => new PumpTrainerDifficultyCalculator(RulesetInfo, beatmap);
 
         public override IEnumerable<Mod> GetModsFor(ModType type)
         {
-            // TODO if no mods are selected then choose default set of notes
+            // TODO
             switch (type)
             {
                 case ModType.Automation:
