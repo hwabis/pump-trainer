@@ -77,11 +77,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             Column nextColumn = previousColumn == null ? allowedColumns[random.Next(allowedColumns.Count())] : getNextColumn(nextFoot);
             previousColumn = nextColumn;
 
-            PumpTrainerHitObject nextHitObject = new()
+            PumpTrainerHitObject nextHitObject = new(nextColumn)
             {
                 IntendedFoot = nextFoot,
-                Column = nextColumn,
-
                 StartTime = startTime,
             };
 

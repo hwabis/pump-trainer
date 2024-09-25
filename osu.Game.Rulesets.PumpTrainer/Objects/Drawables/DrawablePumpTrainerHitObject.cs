@@ -12,23 +12,23 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 {
     public partial class DrawablePumpTrainerHitObject : DrawableHitObject<PumpTrainerHitObject>
     {
-        private const int width = 80;
+        public const int WIDTH = 80;
 
         public DrawablePumpTrainerHitObject(PumpTrainerHitObject hitObject)
             : base(hitObject)
         {
-            Size = new Vector2(width);
+            Size = new Vector2(WIDTH);
             Origin = Anchor.TopCentre;
             Anchor = Anchor.TopCentre;
 
             // Indexes 0 to 9 so midpoint is 4.5
-            X = (float)((int)HitObject.Column - 4.5) * width;
+            X = (float)((int)HitObject.Column - 4.5) * WIDTH;
         }
 
         [BackgroundDependencyLoader]
         private void load(TextureStore textures)
         {
-            AddInternal(HitObject.ToSprite(textures));
+            AddInternal(HitObject.GetAssociatedSprite(textures));
         }
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)

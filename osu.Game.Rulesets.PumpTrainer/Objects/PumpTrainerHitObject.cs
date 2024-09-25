@@ -16,7 +16,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
         public Foot IntendedFoot;
         public Column Column;
 
-        public Sprite ToSprite(TextureStore textures)
+        public PumpTrainerHitObject(Column column)
+            : base()
+        {
+            Column = column;
+        }
+
+        // does this belong here?
+        public Sprite GetAssociatedSprite(TextureStore textures)
         {
             string textureString;
 
@@ -43,6 +50,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
             {
                 RelativeSizeAxes = Axes.Both,
                 Origin = Anchor.TopCentre,
+                Anchor = Anchor.TopCentre,
                 Texture = textures.Get(textureString),
             };
 
