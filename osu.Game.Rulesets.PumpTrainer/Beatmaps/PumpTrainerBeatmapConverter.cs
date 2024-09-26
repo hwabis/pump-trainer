@@ -12,7 +12,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
-        private NextHitObjectGenerator generator = new([Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C]); // TODO
+        private NextHitObjectGenerator generator = new(new()
+        {
+            AllowedColumns = [Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C], // todo mod selectable
+            SmallCrossOverFrequency = 0, // todo 
+        });
 
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
