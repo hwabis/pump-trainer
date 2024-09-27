@@ -324,7 +324,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private Column getRandomCandidateColumn(List<Column> candidateColumns, int nonRepeatWeight)
+        private Column getRandomCandidateColumn(List<Column> candidateColumns, int nonRepeatExtraWeight)
         {
             if (candidateColumns.Count == 0)
             {
@@ -347,9 +347,20 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
                 if (candidateColumn != previousPreviousColumn)
                 {
-                    for (int i = 0; i < nonRepeatWeight; i++)
+                    for (int i = 0; i < nonRepeatExtraWeight; i++)
                     {
                         candidateColumnsWeighted.Add(candidateColumn);
+                    }
+                }
+
+                if (Settings.CenterColumnsExtraWeight > 0)
+                {
+                    if (candidateColumn == Column.P1C || candidateColumn == Column.P2C)
+                    {
+                        for (int i = 0; i < Settings.CenterColumnsExtraWeight; i++)
+                        {
+                            candidateColumnsWeighted.Add(candidateColumn);
+                        }
                     }
                 }
             }

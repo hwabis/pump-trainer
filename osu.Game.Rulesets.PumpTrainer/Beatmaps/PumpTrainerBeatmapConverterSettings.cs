@@ -14,6 +14,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// </summary>
         public double SmallTwistFrequency = 0;
 
+        /// <summary>
+        /// The higher the value, the higher the frequency of P1C's and P2C's being generated (over other columns).
+        /// </summary>
+        public int CenterColumnsExtraWeight = 0;
+
         public PumpTrainerBeatmapConverterSettings()
         {
         }

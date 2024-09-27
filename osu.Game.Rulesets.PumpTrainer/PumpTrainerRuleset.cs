@@ -34,6 +34,12 @@ namespace osu.Game.Rulesets.PumpTrainer
             // TODO
             switch (type)
             {
+                case ModType.DifficultyReduction:
+                    return new Mod[]
+                    {
+                        new PumpTrainerModCenterColumnsExtraWeight(),
+                    };
+
                 case ModType.DifficultyIncrease:
                     return new Mod[]
                     {
