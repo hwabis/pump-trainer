@@ -10,11 +10,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
     public class PumpTrainerModCenterColumnsExtraWeight : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Weight")]
-        public Bindable<int> CenterColumnsExtraWeight { get; } = new BindableInt(10)
+        public Bindable<int> CenterColumnsExtraWeight { get; } = new BindableInt(5)
         {
             MinValue = 0,
-            MaxValue = 30,
-            Default = 10,
+            MaxValue = 20,
+            Default = 5,
         };
 
         public override string Name => "Prioritize center columns";
