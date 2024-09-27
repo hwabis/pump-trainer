@@ -17,11 +17,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Default = 10,
         };
 
-        public override string Name => "Center columns weight";
+        public override string Name => "Prioritize center columns";
 
-        public override string Acronym => "CCW";
+        public override string Acronym => "CC";
 
-        public override LocalisableString Description => "Increases the frequency of P1C and P2C, creating more realistic singles charts.";
+        public override LocalisableString Description => "Recommended for singles. Increases the frequency of P1C and P2C.";
 
         public override double ScoreMultiplier => 1;
 
