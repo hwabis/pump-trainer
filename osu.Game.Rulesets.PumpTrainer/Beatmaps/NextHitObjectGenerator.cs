@@ -108,7 +108,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             if (candidateColumns.Count == 0)
             {
-                // We messed up. Do the whole thing again but don't ban anyone. Everything will fix itself eventually lol.......
+                // We messed up. Do the whole thing again but don't ban anyone. Everything will fix itself eventually lol.......]
+                // TODO figure out how to remove this. It can mess stuff up by adding columns that are supposed to be excluded and adding banned patterns
                 candidateColumns = getCandidateColumns(nextFoot, previousColumn);
             }
 
