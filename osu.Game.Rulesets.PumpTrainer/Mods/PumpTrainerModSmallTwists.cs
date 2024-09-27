@@ -7,7 +7,7 @@ using osu.Game.Rulesets.PumpTrainer.Beatmaps;
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods
 {
-    public class PumpTrainerSmallTwistsMod : Mod, IApplicableToBeatmapConverter
+    public class PumpTrainerModSmallTwists : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
         public Bindable<double> SmallTwistFrequency { get; } = new BindableDouble(0.5)

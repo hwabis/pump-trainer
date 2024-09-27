@@ -2,7 +2,7 @@
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods.ExcludeColumns
 {
-    public class PumpTrainerExcludeP2ULMod : PumpTrainerExcludeColumnMod
+    public class PumpTrainerModExcludeP2UL : PumpTrainerModExcludeColumn
     {
         public override Column ExcludedColumn => Column.P2UL;
     }

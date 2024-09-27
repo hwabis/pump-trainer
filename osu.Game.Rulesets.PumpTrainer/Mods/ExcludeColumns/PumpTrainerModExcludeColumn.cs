@@ -6,7 +6,7 @@ using osu.Game.Rulesets.PumpTrainer.Objects;
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods.ExcludeColumns
 {
-    public abstract class PumpTrainerExcludeColumnMod : Mod, IApplicableToBeatmapConverter
+    public abstract class PumpTrainerModExcludeColumn : Mod, IApplicableToBeatmapConverter
     {
         public override string Name => "Exclude " + ExcludedColumn.ToString();
         public override string Acronym => ExcludedColumn.ToString();

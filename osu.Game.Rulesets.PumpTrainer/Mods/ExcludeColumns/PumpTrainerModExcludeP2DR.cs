@@ -2,7 +2,7 @@
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods.ExcludeColumns
 {
-    public class PumpTrainerExcludeP2DRMod : PumpTrainerExcludeColumnMod
+    public class PumpTrainerModExcludeP2DR : PumpTrainerModExcludeColumn
     {
         public override Column ExcludedColumn => Column.P2DR;
     }
