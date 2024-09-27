@@ -35,6 +35,12 @@ namespace osu.Game.Rulesets.PumpTrainer
             // TODO
             switch (type)
             {
+                case ModType.DifficultyIncrease:
+                    return new Mod[]
+                    {
+                        new PumpTrainerSmallTwistsMod(),
+                    };
+
                 case ModType.Conversion:
                     return new Mod[]
                     {

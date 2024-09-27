@@ -12,14 +12,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
-        public PumpTrainerBeatmapConverterSettings Settings = new();
-
-        private NextHitObjectGenerator generator;
+        public PumpTrainerBeatmapConverterSettings Settings => generator.Settings;
+        private NextHitObjectGenerator generator = new();
 
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
         {
-            generator = new(Settings);
         }
 
         public override bool CanConvert() => true;

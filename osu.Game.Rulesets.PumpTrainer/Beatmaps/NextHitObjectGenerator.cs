@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private Dictionary<Column, List<Column>> nextColumnsPreviousFootRight = [];
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftSmallCrossover = new()
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftSmallTwist = new()
         {
             { Column.P1C, [Column.P1DL, Column.P1UL] },
             { Column.P1UR, [Column.P1C] },
@@ -34,9 +34,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2DR, [Column.P2C] },
         };
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightSmallCrossover = [];
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightSmallTwist = [];
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftLargeCrossover = new()
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftLargeTwist = new()
         {
             { Column.P1UR, [Column.P1DL] },
             { Column.P1DR, [Column.P1UL] },
@@ -47,7 +47,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2DR, [Column.P2UL] },
         };
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightLargeCrossover = [];
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightLargeTwist = [];
 
         private Dictionary<Column, Column> horizontalFlips = new()
         {
@@ -63,20 +63,18 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2DR, Column.P1DL },
         };
 
-        private static Random random = new(); // TODO seedable
+        private static Random random = new();
 
         private List<PumpTrainerHitObject> hitObjectsSoFar = [];
 
         private Foot? previousFoot = null;
         private Column? previousColumn = null;
 
-        private PumpTrainerBeatmapConverterSettings settings;
+        public PumpTrainerBeatmapConverterSettings Settings = new();
 
-        public NextHitObjectGenerator(PumpTrainerBeatmapConverterSettings settings)
+        public NextHitObjectGenerator()
         {
             initializeFootRightDictionaries();
-
-            this.settings = settings;
         }
 
         public PumpTrainerHitObject GetNextHitObject(double startTime, IBeatmap beatmap)
@@ -84,7 +82,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             // Always start on the left foot as the first note (for now?)
             Foot nextFoot = previousFoot == null || previousFoot == Foot.Right ? Foot.Left : Foot.Right;
 
-            Column nextColumn = previousColumn == null ? settings.AllowedColumns[random.Next(settings.AllowedColumns.Count())]
+            Column nextColumn = previousColumn == null ? Settings.AllowedColumns[random.Next(Settings.AllowedColumns.Count())]
                 : getNextColumn(nextFoot, (Column)previousColumn);
 
             PumpTrainerHitObject nextHitObject = new(nextColumn)
@@ -106,7 +104,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             List<Column> candidateColumns = getCandidateColumns(nextFoot, previousColumn);
 
             includeOnlyAllowedColumns(candidateColumns);
-            banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left, false); // TODO toggle whether 180 deg crossovers are allowed
+            banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left, false); // TODO toggle whether 180 deg twists are allowed
 
             if (candidateColumns.Count == 0)
             {
@@ -122,13 +120,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             List<Column> candidateColumns = (nextFoot == Foot.Left ?
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
-            possiblyAddSmallCrossoversToCandidates(candidateColumns);
+            possiblyAddSmallTwistsToCandidates(candidateColumns);
             // TODO add large crossovers if it's enabled
 
             return candidateColumns;
         }
 
-        private void possiblyAddSmallCrossoversToCandidates(List<Column> candidates)
+        private void possiblyAddSmallTwistsToCandidates(List<Column> candidates)
         {
             Column previousColumnNonNull;
 
@@ -141,16 +139,34 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 return;
             }
 
-            if (candidates.Count == 0 || random.NextDouble() < settings.SmallCrossOverFrequency)
+            if (random.NextDouble() < Settings.SmallTwistFrequency)
             {
+                List<Column> twistColumnsToAdd;
+
                 if (previousFoot == Foot.Left)
                 {
-                    candidates.AddRange(nextColumnsPreviousFootLeftSmallCrossover[previousColumnNonNull]);
+                    if (nextColumnsPreviousFootLeftSmallTwist.ContainsKey(previousColumnNonNull))
+                    {
+                        twistColumnsToAdd = nextColumnsPreviousFootLeftSmallTwist[previousColumnNonNull];
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
-                    candidates.AddRange(nextColumnsPreviousFootRightSmallCrossover[previousColumnNonNull]);
+                    if (nextColumnsPreviousFootRightSmallTwist.ContainsKey(previousColumnNonNull))
+                    {
+                        twistColumnsToAdd = nextColumnsPreviousFootRightSmallTwist[previousColumnNonNull];
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
+
+                candidates.AddRange(twistColumnsToAdd);
             }
         }
 
@@ -158,7 +174,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         {
             foreach (Column column in candidateColumns.ToList())
             {
-                if (!settings.AllowedColumns.Contains(column))
+                if (!Settings.AllowedColumns.Contains(column))
                 {
                     candidateColumns.Remove(column);
                 }
@@ -345,30 +361,37 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             foreach (var entry in nextColumnsPreviousFootLeft)
             {
                 Column flippedColumn = horizontalFlips[entry.Key];
+
                 List<Column> flippedValues = nextColumnsPreviousFootLeft[flippedColumn].Select(n => horizontalFlips[n]).ToList();
                 nextColumnsPreviousFootRight[entry.Key] = flippedValues;
             }
 
-            foreach (var entry in nextColumnsPreviousFootLeftSmallCrossover)
+            foreach (var entry in nextColumnsPreviousFootLeftSmallTwist)
             {
                 Column flippedColumn = horizontalFlips[entry.Key];
 
-                if (nextColumnsPreviousFootLeftSmallCrossover.ContainsKey(flippedColumn))
+                if (nextColumnsPreviousFootLeftSmallTwist.ContainsKey(flippedColumn))
                 {
-                    List<Column> flippedValues = nextColumnsPreviousFootLeftSmallCrossover[flippedColumn].Select(n => horizontalFlips[n]).ToList();
-                    nextColumnsPreviousFootLeftSmallCrossover[entry.Key] = flippedValues;
+                    List<Column> flippedValues = nextColumnsPreviousFootLeftSmallTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
+                    nextColumnsPreviousFootRightSmallTwist[entry.Key] = flippedValues;
                 }
             }
 
-            foreach (var entry in nextColumnsPreviousFootLeftLargeCrossover)
+            foreach (Column column in Enum.GetValues(typeof(Column)))
             {
-                Column flippedColumn = horizontalFlips[entry.Key];
+                Column flippedColumn = horizontalFlips[column];
 
-                if (nextColumnsPreviousFootLeftLargeCrossover.ContainsKey(flippedColumn))
+                if (nextColumnsPreviousFootLeft.ContainsKey(flippedColumn))
                 {
-                    List<Column> flippedValues = nextColumnsPreviousFootLeftLargeCrossover[flippedColumn].Select(n => horizontalFlips[n]).ToList();
-                    nextColumnsPreviousFootRightLargeCrossover[entry.Key] = flippedValues;
+                    nextColumnsPreviousFootRight[column] = nextColumnsPreviousFootLeft[flippedColumn].Select(n => horizontalFlips[n]).ToList();
                 }
+
+                if (nextColumnsPreviousFootLeftSmallTwist.ContainsKey(flippedColumn))
+                {
+                    nextColumnsPreviousFootRightSmallTwist[column] = nextColumnsPreviousFootLeftSmallTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
+                }
+
+                // TODO large twist
             }
         }
     }
