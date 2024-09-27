@@ -12,6 +12,8 @@ using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.PumpTrainer.Beatmaps;
 using osu.Game.Rulesets.PumpTrainer.Mods;
+using osu.Game.Rulesets.PumpTrainer.Mods.ExcludeColumns;
+using osu.Game.Rulesets.PumpTrainer.Objects;
 using osu.Game.Rulesets.PumpTrainer.UI;
 using osu.Game.Rulesets.UI;
 
@@ -33,6 +35,21 @@ namespace osu.Game.Rulesets.PumpTrainer
             // TODO
             switch (type)
             {
+                case ModType.Conversion:
+                    return new Mod[]
+                    {
+                        new PumpTrainerExcludeP1DLMod(),
+                        new PumpTrainerExcludeP1ULMod(),
+                        new PumpTrainerExcludeP1CMod(),
+                        new PumpTrainerExcludeP1URMod(),
+                        new PumpTrainerExcludeP1DRMod(),
+                        new PumpTrainerExcludeP2DLMod(),
+                        new PumpTrainerExcludeP2ULMod(),
+                        new PumpTrainerExcludeP2CMod(),
+                        new PumpTrainerExcludeP2URMod(),
+                        new PumpTrainerExcludeP2DRMod(),
+                    };
+
                 case ModType.Automation:
                     return new[] { new PumpTrainerModAutoplay() };
 

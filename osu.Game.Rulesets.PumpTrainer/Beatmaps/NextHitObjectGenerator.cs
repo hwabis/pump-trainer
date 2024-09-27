@@ -70,9 +70,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         private Foot? previousFoot = null;
         private Column? previousColumn = null;
 
-        private readonly PumpTrainerHitObjectSettings settings;
+        private PumpTrainerBeatmapConverterSettings settings;
 
-        public NextHitObjectGenerator(PumpTrainerHitObjectSettings settings)
+        public NextHitObjectGenerator(PumpTrainerBeatmapConverterSettings settings)
         {
             initializeFootRightDictionaries();
 

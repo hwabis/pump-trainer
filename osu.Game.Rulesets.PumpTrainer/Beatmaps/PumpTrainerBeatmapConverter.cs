@@ -12,15 +12,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
-        private NextHitObjectGenerator generator = new(new()
-        {
-            AllowedColumns = [Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C], // todo mod selectable
-            SmallCrossOverFrequency = 0, // todo 
-        });
+        public PumpTrainerBeatmapConverterSettings Settings = new();
+
+        private NextHitObjectGenerator generator;
 
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
         {
+            generator = new(Settings);
         }
 
         public override bool CanConvert() => true;
