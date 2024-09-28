@@ -7,6 +7,6 @@ this is for me to test the theory that [playing random mod](https://iidx.org/int
 
 converted map: [https://osu.ppy.sh/beatmapsets/2043616#osu/4289455](https://osu.ppy.sh/beatmapsets/2043616#osu/4289455)
 
-https://github.com/user-attachments/assets/3bdc2316-b4d5-477a-8f18-cbb40e78aa35
+https://github.com/user-attachments/assets/2801fdac-9fd7-4f62-b151-e4a925ab27f9
 
 https://github.com/user-attachments/assets/260ec3eb-5a20-4850-a550-f9b0c2becf0a
