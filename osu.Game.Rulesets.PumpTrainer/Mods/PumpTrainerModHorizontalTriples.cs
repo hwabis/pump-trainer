@@ -24,6 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             "Runs spanning three or more physical dance pad columns (not note columns).\n" +
             "Only has an effect when the panel set spans at least a half-double.";
         public override double ScoreMultiplier => 1;
+        public override ModType Type => ModType.DifficultyIncrease;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)
         {

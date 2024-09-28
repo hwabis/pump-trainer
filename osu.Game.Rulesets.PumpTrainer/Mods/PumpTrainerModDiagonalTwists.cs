@@ -24,6 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             "Diagonal crossovers across a center panel.\n" +
             "Only has an effect when the panel set spans at least a single, and the \"horizontal twists\" mod is on.";
         public override double ScoreMultiplier => 1;
+        public override ModType Type => ModType.DifficultyIncrease;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)
         {
