@@ -44,6 +44,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                     return new Mod[]
                     {
                         new PumpTrainerModSmallTwists(),
+                        new PumpTrainerModDiagonalTwists(),
                     };
 
                 case ModType.Conversion:

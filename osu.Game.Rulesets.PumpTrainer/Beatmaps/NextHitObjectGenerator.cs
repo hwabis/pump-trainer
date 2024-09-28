@@ -104,7 +104,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             List<Column> candidateColumns = getCandidateColumns(nextFoot, previousColumn);
 
             includeOnlyAllowedColumns(candidateColumns);
-            banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left, false); // TODO toggle whether 180 deg twists are allowed
+            banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left);
 
             if (candidateColumns.Count == 0)
             {
@@ -122,7 +122,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
             possiblyAddSmallTwistsToCandidates(candidateColumns);
-            // TODO add large crossovers if it's enabled
+            // TODO add large crossovers
 
             return candidateColumns;
         }
@@ -182,7 +182,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void banColumnsCausingBannedPatterns(List<Column> candidateColumns, Foot previousFoot, bool allowWideSwings)
+        private void banColumnsCausingBannedPatterns(List<Column> candidateColumns, Foot previousFoot)
         {
             if (hitObjectsSoFar.Count <= 1)
             {
@@ -193,12 +193,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             Column previousColumn = hitObjectsSoFar[^1].Column;
             Column previousPreviousColumn = hitObjectsSoFar[^2].Column;
 
-            // Ban patterns that would only be comfortable if you spin around
-            // [RLR] DL C UL
-            // [RLR] UL C DL
-            // [LRL] DR C UR
-            // [LRL] UR C DR
-
+            // Ban spins no matter what
             if (previousFoot == Foot.Left)
             {
                 if (previousColumn == Column.P1C)
@@ -254,10 +249,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            if (!allowWideSwings)
+            // Ban diagonal twists
+            if (random.NextDouble() > Settings.DiagonalTwistFrequency)
             {
-                // Ban 180 degree twists
-
                 if (previousColumn == Column.P1C)
                 {
                     if (previousPreviousColumn == Column.P1DL)

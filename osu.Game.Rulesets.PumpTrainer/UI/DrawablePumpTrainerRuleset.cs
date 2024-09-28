@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
             : base(ruleset, beatmap, mods)
         {
             Direction.Value = ScrollingDirection.Up;
-            TimeRange.Value = 2000; // todo
+            TimeRange.Value = 3000;
             // still have no idea what this number means. but apparently you can use F3 and F4 to adjust scroll speed
         }
 

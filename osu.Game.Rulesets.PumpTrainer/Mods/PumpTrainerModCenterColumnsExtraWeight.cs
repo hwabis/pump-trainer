@@ -12,18 +12,16 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         [SettingSource("Weight")]
         public Bindable<int> CenterColumnsExtraWeight { get; } = new BindableInt(5)
         {
-            MinValue = 0,
+            MinValue = 1,
             MaxValue = 20,
             Default = 5,
         };
 
         public override string Name => "Prioritize center columns";
-
-        public override string Acronym => "CC";
-
+        public override string Acronym => "S";
         public override LocalisableString Description => "Recommended for singles. Increases the frequency of P1C and P2C.";
-
         public override double ScoreMultiplier => 1;
+        public override ModType Type => ModType.DifficultyReduction;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)
         {
