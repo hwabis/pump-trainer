@@ -7,10 +7,10 @@ using osu.Game.Rulesets.PumpTrainer.Beatmaps;
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods
 {
-    public class PumpTrainerModSmallTwists : Mod, IApplicableToBeatmapConverter
+    public class PumpTrainerModHorizontalTwists : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
-        public Bindable<double> SmallTwistFrequency { get; } = new BindableDouble(0.5)
+        public Bindable<double> HorizontalTwistFrequency { get; } = new BindableDouble(0.5)
         {
             MinValue = 0.1,
             MaxValue = 1.0,
@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "Add small twists";
+        public override string Name => "Horizontal twists";
         public override string Acronym => "H";
         public override LocalisableString Description => "Feet cross over horizontally across a center panel.";
         public override double ScoreMultiplier => 1;
@@ -27,7 +27,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.Settings.SmallTwistFrequency = SmallTwistFrequency.Value;
+            pumpBeatmapConverter.Settings.HorizontalTwistFrequency = HorizontalTwistFrequency.Value;
         }
     }
 }

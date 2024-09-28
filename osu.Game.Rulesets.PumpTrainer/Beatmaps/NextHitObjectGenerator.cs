@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private Dictionary<Column, List<Column>> nextColumnsPreviousFootRight = [];
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftSmallTwist = new()
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftHorizontalTwist = new()
         {
             { Column.P1C, [Column.P1DL, Column.P1UL] },
             { Column.P1UR, [Column.P1C] },
@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2DR, [Column.P2C] },
         };
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightSmallTwist = [];
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightHorizontalTwist = [];
 
         private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftLargeTwist = new()
         {
@@ -121,13 +121,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             List<Column> candidateColumns = (nextFoot == Foot.Left ?
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
-            possiblyAddSmallTwistsToCandidates(candidateColumns);
+            possiblyAddHorizontalTwistsToCandidates(candidateColumns);
             // TODO add large crossovers
 
             return candidateColumns;
         }
 
-        private void possiblyAddSmallTwistsToCandidates(List<Column> candidates)
+        private void possiblyAddHorizontalTwistsToCandidates(List<Column> candidates)
         {
             Column previousColumnNonNull;
 
@@ -140,15 +140,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 return;
             }
 
-            if (random.NextDouble() < Settings.SmallTwistFrequency)
+            if (random.NextDouble() < Settings.HorizontalTwistFrequency)
             {
                 List<Column> twistColumnsToAdd;
 
                 if (previousFoot == Foot.Left)
                 {
-                    if (nextColumnsPreviousFootLeftSmallTwist.ContainsKey(previousColumnNonNull))
+                    if (nextColumnsPreviousFootLeftHorizontalTwist.ContainsKey(previousColumnNonNull))
                     {
-                        twistColumnsToAdd = nextColumnsPreviousFootLeftSmallTwist[previousColumnNonNull];
+                        twistColumnsToAdd = nextColumnsPreviousFootLeftHorizontalTwist[previousColumnNonNull];
                     }
                     else
                     {
@@ -157,9 +157,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
                 else
                 {
-                    if (nextColumnsPreviousFootRightSmallTwist.ContainsKey(previousColumnNonNull))
+                    if (nextColumnsPreviousFootRightHorizontalTwist.ContainsKey(previousColumnNonNull))
                     {
-                        twistColumnsToAdd = nextColumnsPreviousFootRightSmallTwist[previousColumnNonNull];
+                        twistColumnsToAdd = nextColumnsPreviousFootRightHorizontalTwist[previousColumnNonNull];
                     }
                     else
                     {
@@ -372,14 +372,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 nextColumnsPreviousFootRight[entry.Key] = flippedValues;
             }
 
-            foreach (var entry in nextColumnsPreviousFootLeftSmallTwist)
+            foreach (var entry in nextColumnsPreviousFootLeftHorizontalTwist)
             {
                 Column flippedColumn = horizontalFlips[entry.Key];
 
-                if (nextColumnsPreviousFootLeftSmallTwist.ContainsKey(flippedColumn))
+                if (nextColumnsPreviousFootLeftHorizontalTwist.ContainsKey(flippedColumn))
                 {
-                    List<Column> flippedValues = nextColumnsPreviousFootLeftSmallTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
-                    nextColumnsPreviousFootRightSmallTwist[entry.Key] = flippedValues;
+                    List<Column> flippedValues = nextColumnsPreviousFootLeftHorizontalTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
+                    nextColumnsPreviousFootRightHorizontalTwist[entry.Key] = flippedValues;
                 }
             }
 
@@ -392,9 +392,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     nextColumnsPreviousFootRight[column] = nextColumnsPreviousFootLeft[flippedColumn].Select(n => horizontalFlips[n]).ToList();
                 }
 
-                if (nextColumnsPreviousFootLeftSmallTwist.ContainsKey(flippedColumn))
+                if (nextColumnsPreviousFootLeftHorizontalTwist.ContainsKey(flippedColumn))
                 {
-                    nextColumnsPreviousFootRightSmallTwist[column] = nextColumnsPreviousFootLeftSmallTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
+                    nextColumnsPreviousFootRightHorizontalTwist[column] = nextColumnsPreviousFootLeftHorizontalTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
                 }
 
                 // TODO large twist

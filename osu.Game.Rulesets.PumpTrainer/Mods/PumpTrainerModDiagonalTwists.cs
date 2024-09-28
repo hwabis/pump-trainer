@@ -18,11 +18,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "Add diagonal twists";
+        public override string Name => "Diagonal twists";
         public override string Acronym => "D";
         public override LocalisableString Description =>
             "Feet cross over diagonally across a center panel.\n" +
-            "Requires the \"small twists\" mod to be on.";
+            "Requires the \"horizontal twists\" mod to be on.";
         public override double ScoreMultiplier => 1;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)

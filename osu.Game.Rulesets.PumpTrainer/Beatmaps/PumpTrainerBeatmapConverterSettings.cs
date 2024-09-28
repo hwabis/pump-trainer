@@ -12,7 +12,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// 0 to 1 determining how frequently to generate crossovers. Higher means more likely.
         /// A cross over would be like: left foot UL --> C --> UR
         /// </summary>
-        public double SmallTwistFrequency = 0;
+        public double HorizontalTwistFrequency = 0;
 
         /// <summary>
         /// The higher the value, the higher the frequency of P1C's and P2C's being generated (over other columns).
