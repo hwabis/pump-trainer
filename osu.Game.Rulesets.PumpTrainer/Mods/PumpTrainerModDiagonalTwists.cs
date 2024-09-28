@@ -22,7 +22,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Acronym => "D";
         public override LocalisableString Description =>
             "Feet cross over diagonally across a center panel.\n" +
-            "Requires the \"horizontal twists\" mod to be on.";
+            "Only has an effect when the \"horizontal twists\" mod is on.\n" +
+            "Has no effect on half-doubles.";
         public override double ScoreMultiplier => 1;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)

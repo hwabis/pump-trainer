@@ -9,8 +9,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             [Column.P1DL, Column.P1UL, Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C, Column.P2UR, Column.P2DR];
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate crossovers. Higher means more likely.
-        /// A cross over would be like: left foot UL --> C --> UR
+        /// 0 to 1 determining how frequently to generate a horizontal twist. Higher means more likely.
+        /// Example starting left foot: UL --> C --> UR
         /// </summary>
         public double HorizontalTwistFrequency = 0;
 
@@ -21,9 +21,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         /// <summary>
         /// 0 to 1 determining how frequently to generate a diagonal twist. Higher means more likely.
-        /// A diagonal twist would be like: starting left foot: DL --> C --> UR
+        /// Example starting left foot: DL --> C --> UR
         /// </summary>
         public double DiagonalTwistFrequency = 0;
+
+        /// <summary>
+        /// 0 to 1 determining how frequently to generate a diagonal twist. Higher means more likely.
+        /// Example starting left foot: DL --> C --> UR
+        /// </summary>
+        //public double DiagonalTwistFrequency = 0;
 
         public PumpTrainerBeatmapConverterSettings()
         {

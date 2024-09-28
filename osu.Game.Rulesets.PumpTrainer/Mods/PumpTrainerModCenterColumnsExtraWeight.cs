@@ -19,7 +19,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
 
         public override string Name => "Prioritize center columns";
         public override string Acronym => "S";
-        public override LocalisableString Description => "Recommended for singles.";
+        public override LocalisableString Description => "Recommended for singles. Not recommended for half-doubles.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
 
