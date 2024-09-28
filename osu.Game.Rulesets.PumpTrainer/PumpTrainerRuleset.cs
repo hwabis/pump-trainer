@@ -45,6 +45,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                     {
                         new PumpTrainerModHorizontalTwists(),
                         new PumpTrainerModDiagonalTwists(),
+                        new PumpTrainerModHorizontalTriples(),
                     };
 
                 case ModType.Conversion:

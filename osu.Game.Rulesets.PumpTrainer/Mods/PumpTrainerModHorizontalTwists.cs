@@ -20,7 +20,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
 
         public override string Name => "Horizontal twists";
         public override string Acronym => "H";
-        public override LocalisableString Description => "Feet cross over horizontally across a center panel.";
+        public override LocalisableString Description => "Horizontal crossovers across a center panel.";
         public override double ScoreMultiplier => 1;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)

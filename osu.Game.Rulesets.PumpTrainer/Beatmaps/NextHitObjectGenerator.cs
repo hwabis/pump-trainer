@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.PumpTrainer.Objects;
+using Realms;
 
 namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
@@ -62,6 +65,20 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2UR, Column.P1UL },
             { Column.P2DR, Column.P1DL },
         };
+
+        private ImmutableDictionary<Column, int> columnToPhysicalColumn = new Dictionary<Column, int>()
+        {
+            { Column.P1DL, 0 },
+            { Column.P1UL, 0 },
+            { Column.P1C, 1 },
+            { Column.P1UR, 2 },
+            { Column.P1DR, 2 },
+            { Column.P2DL, 3 },
+            { Column.P2UL, 3 },
+            { Column.P2C, 4 },
+            { Column.P2UR, 5 },
+            { Column.P2DR, 5 },
+        }.ToImmutableDictionary();
 
         private static Random random = new();
 
@@ -249,6 +266,31 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
+            // Ban this long horizontal twist thing no matter what
+            // Like bro idek how I thought to cover this case
+            if (previousColumn == Column.P1C)
+            {
+                if (previousPreviousColumn == Column.P2UL)
+                {
+                    candidateColumns.Remove(Column.P1UL);
+                }
+                if (previousPreviousColumn == Column.P2DL)
+                {
+                    candidateColumns.Remove(Column.P1DL);
+                }
+            }
+            else if (previousColumn == Column.P2C)
+            {
+                if (previousPreviousColumn == Column.P1UR)
+                {
+                    candidateColumns.Remove(Column.P2UR);
+                }
+                if (previousPreviousColumn == Column.P1DR)
+                {
+                    candidateColumns.Remove(Column.P2DR);
+                }
+            }
+
             // Ban diagonal twists
             if (random.NextDouble() > Settings.DiagonalTwistFrequency)
             {
@@ -290,30 +332,25 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         candidateColumns.Remove(Column.P2DR);
                     }
                 }
+            }
 
-                // Ban ... long horizontal swings.
+            // Ban horizontal triples
+            if (random.NextDouble() > Settings.HorizontalTripleFrequency)
+            {
+                int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
+                int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];
 
-                if (previousColumn == Column.P1C)
+                if (previousPhysicalColumn - previousPreviousPhysicalColumn == 1)
                 {
-                    if (previousPreviousColumn == Column.P2UL)
-                    {
-                        candidateColumns.Remove(Column.P1UL);
-                    }
-                    if (previousPreviousColumn == Column.P2DL)
-                    {
-                        candidateColumns.Remove(Column.P1DL);
-                    }
+                    // Going right!
+                    List<Column> columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value == previousPhysicalColumn + 1).Select(entry => entry.Key).ToList();
+                    candidateColumns.RemoveAll(columnsToBan.Contains);
                 }
-                else if (previousColumn == Column.P2C)
+                else if (previousPhysicalColumn - previousPreviousPhysicalColumn == -1)
                 {
-                    if (previousPreviousColumn == Column.P1UR)
-                    {
-                        candidateColumns.Remove(Column.P2UR);
-                    }
-                    if (previousPreviousColumn == Column.P1DR)
-                    {
-                        candidateColumns.Remove(Column.P2DR);
-                    }
+                    // Going left!
+                    List<Column> columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value == previousPhysicalColumn - 1).Select(entry => entry.Key).ToList();
+                    candidateColumns.RemoveAll(columnsToBan.Contains);
                 }
             }
         }
