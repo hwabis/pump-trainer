@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "[D] Horizontal triples";
+        public override string Name => "[AT LEAST HALF-D] Horizontal triples";
         public override string Acronym => "HHH";
         public override LocalisableString Description =>
             "Runs spanning three or more physical dance pad columns (not note columns).\n" +

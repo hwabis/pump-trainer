@@ -141,6 +141,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             possiblyAddHorizontalTwistsToCandidates(candidateColumns);
             // TODO add large crossovers
 
+            // The only reason we're removing singles twists after adding them to the candidates via the main dictionaries instead
+            // of putting the twists in separate dictionaries then adding the twists in that separate dictionary conditionally based on the setting
+            // is because this kind of twist is super common in doubles charts, and playing without them in doubles would be super weird.
+            // So, it would feel weird to not include them in the main dictionaries.
+            possiblyBanSinglesTwists(candidateColumns);
+
             return candidateColumns;
         }
 
@@ -188,6 +194,60 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
+        private void possiblyBanSinglesTwists(List<Column> candidates)
+        {
+            Column previousColumnNonNull;
+
+            if (previousColumn != null)
+            {
+                previousColumnNonNull = (Column)previousColumn;
+            }
+            else
+            {
+                return;
+            }
+
+            if (random.NextDouble() > Settings.SinglesTwistFrequency)
+            {
+                if (previousFoot == Foot.Left)
+                {
+                    switch (previousColumnNonNull)
+                    {
+                        case Column.P1DL:
+                            candidates.Remove(Column.P1UL);
+                            return;
+                        case Column.P1UL:
+                            candidates.Remove(Column.P1DL);
+                            return;
+                        case Column.P2DL:
+                            candidates.Remove(Column.P2UL);
+                            return;
+                        case Column.P2UL:
+                            candidates.Remove(Column.P2DL);
+                            return;
+                    }
+                }
+                else
+                {
+                    switch (previousColumnNonNull)
+                    {
+                        case Column.P1DR:
+                            candidates.Remove(Column.P1UR);
+                            return;
+                        case Column.P1UR:
+                            candidates.Remove(Column.P1DR);
+                            return;
+                        case Column.P2DR:
+                            candidates.Remove(Column.P2UR);
+                            return;
+                        case Column.P2UR:
+                            candidates.Remove(Column.P2DR);
+                            return;
+                    }
+                }
+            }
+        }
+
         private void includeOnlyAllowedColumns(List<Column> candidateColumns)
         {
             foreach (Column column in candidateColumns.ToList())
@@ -199,6 +259,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
+        /// <summary>
+        /// Bans columns the given list of candidates based on the columns two most recent hit objects in the generated beatmap.
+        /// </summary>
+        /// <param name="candidateColumns">Candidate columns to ban from.</param>
+        /// <param name="previousFoot">Associated foot of the most recent hit object in the beatmap.</param>
         private void banColumnsCausingBannedPatterns(List<Column> candidateColumns, Foot previousFoot)
         {
             if (hitObjectsSoFar.Count <= 1)
@@ -384,11 +449,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     }
                 }
 
-                if (Settings.CenterColumnsExtraWeight > 0)
+                if (Settings.SinglesTwistFrequency > 0)
                 {
                     if (candidateColumn == Column.P1C || candidateColumn == Column.P2C)
                     {
-                        for (int i = 0; i < Settings.CenterColumnsExtraWeight; i++)
+                        for (int i = 0; i < Settings.SinglesTwistFrequency; i++)
                         {
                             candidateColumnsWeighted.Add(candidateColumn);
                         }

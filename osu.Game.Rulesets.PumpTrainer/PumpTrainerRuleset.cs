@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                 case ModType.DifficultyReduction:
                     return new Mod[]
                     {
-                        new PumpTrainerModCenterColumnsExtraWeight(),
+                        new PumpTrainerModBanSinglesTwists(),
                     };
 
                 case ModType.DifficultyIncrease:

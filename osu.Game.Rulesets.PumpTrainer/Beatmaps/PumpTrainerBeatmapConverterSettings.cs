@@ -9,9 +9,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             [Column.P1DL, Column.P1UL, Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C, Column.P2UR, Column.P2DR];
 
         /// <summary>
-        /// The higher the value, the higher the frequency of P1C's and P2C's being generated (over other columns).
+        /// 0 to 1 determining how frequently to generate a singles "twist" that's not a horizontal twist. Higher means more likely.
+        /// Example starting left foot: C --> UR --> DR
+        /// Example starting left foot: C --> DR --> UR
         /// </summary>
-        public int CenterColumnsExtraWeight = 0;
+        public double SinglesTwistFrequency = 1;
 
         /// <summary>
         /// 0 to 1 determining how frequently to generate a horizontal twist. Higher means more likely.
