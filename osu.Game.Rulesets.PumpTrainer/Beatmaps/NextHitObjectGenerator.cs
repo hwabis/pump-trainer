@@ -466,25 +466,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private void initializeFootRightDictionaries()
         {
-            foreach (var entry in nextColumnsPreviousFootLeft)
-            {
-                Column flippedColumn = horizontalFlips[entry.Key];
-
-                List<Column> flippedValues = nextColumnsPreviousFootLeft[flippedColumn].Select(n => horizontalFlips[n]).ToList();
-                nextColumnsPreviousFootRight[entry.Key] = flippedValues;
-            }
-
-            foreach (var entry in nextColumnsPreviousFootLeftHorizontalTwist)
-            {
-                Column flippedColumn = horizontalFlips[entry.Key];
-
-                if (nextColumnsPreviousFootLeftHorizontalTwist.ContainsKey(flippedColumn))
-                {
-                    List<Column> flippedValues = nextColumnsPreviousFootLeftHorizontalTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
-                    nextColumnsPreviousFootRightHorizontalTwist[entry.Key] = flippedValues;
-                }
-            }
-
             foreach (Column column in Enum.GetValues(typeof(Column)))
             {
                 Column flippedColumn = horizontalFlips[column];
