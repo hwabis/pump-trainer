@@ -3,6 +3,12 @@
 this is a ruleset for [osu](https://github.com/ppy/osu). it generates random but playable pump it up charts, so no spins or impossible twists. only supports single notes at a time (no holds or simultaneous notes).
 this is for me to test the theory that [playing random mod](https://iidx.org/intermediate/tips#justification-for-always-using-random) helps you improve at rhythm games faster. also i get to practice to my favorite songs in osu! :)
 
+## how to install
+
+https://rulesets.info/install/rulesets
+
+the ruleset file is provided here: https://github.com/hwabis/pump-trainer/releases
+
 ## helpful tips if u want to try this out
 
 - currently you can't actually play with a keyboard. i just shadow play with my feet because i don't really believe in hand PIU. (and i'm lazy to implement it)
@@ -12,7 +18,7 @@ this is for me to test the theory that [playing random mod](https://iidx.org/int
 
 ## example outputs
 
-converted map: [https://osu.ppy.sh/beatmapsets/2087136#taiko/4373682](https://osu.ppy.sh/beatmapsets/2087136#taiko/4373682)
+converted map: https://osu.ppy.sh/beatmapsets/2087136#taiko/4373682
 
 ### single no twists 
 
