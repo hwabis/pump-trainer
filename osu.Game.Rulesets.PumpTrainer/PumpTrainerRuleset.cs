@@ -43,9 +43,9 @@ namespace osu.Game.Rulesets.PumpTrainer
                 case ModType.DifficultyIncrease:
                     return new Mod[]
                     {
+                        new PumpTrainerModHorizontalTriples(),
                         new PumpTrainerModHorizontalTwists(),
                         new PumpTrainerModDiagonalTwists(),
-                        new PumpTrainerModHorizontalTriples(),
                     };
 
                 case ModType.Conversion:

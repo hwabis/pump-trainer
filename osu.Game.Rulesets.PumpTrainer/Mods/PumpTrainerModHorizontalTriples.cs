@@ -10,19 +10,18 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
     public class PumpTrainerModHorizontalTriples : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
-        public Bindable<double> HorizontalTripleFrequency { get; } = new BindableDouble(0.5)
+        public Bindable<double> HorizontalTripleFrequency { get; } = new BindableDouble(1.0)
         {
             MinValue = 0.1,
             MaxValue = 1.0,
-            Default = 0.5,
+            Default = 1.0,
             Precision = 0.1,
         };
 
-        public override string Name => "[AT LEAST HALF-D] Horizontal triples";
+        public override string Name => "Horizontal triples";
         public override string Acronym => "HHH";
         public override LocalisableString Description =>
-            "Runs spanning three or more physical dance pad columns (not note columns).\n" +
-            "Only has an effect when the panel set spans at least a half-double.";
+            "Three consecutive notes spanning three physical dance pad columns (not note columns) in one direction.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
 
