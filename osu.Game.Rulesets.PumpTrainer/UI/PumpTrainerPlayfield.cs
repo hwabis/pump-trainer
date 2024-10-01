@@ -4,12 +4,10 @@
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Game.Rulesets.PumpTrainer.Objects;
 using osu.Game.Rulesets.PumpTrainer.Objects.Drawables;
 using osu.Game.Rulesets.UI.Scrolling;
-using osuTK.Graphics;
 
 namespace osu.Game.Rulesets.PumpTrainer.UI
 {
@@ -21,7 +19,7 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
         {
             Margin = new()
             {
-                Top = 80,
+                Top = 50,
             };
 
             AddRangeInternal(new Drawable[]

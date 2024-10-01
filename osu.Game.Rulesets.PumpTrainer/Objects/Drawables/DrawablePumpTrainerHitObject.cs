@@ -3,7 +3,6 @@
 
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Game.Rulesets.Objects.Drawables;
 using osuTK;
@@ -12,7 +11,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 {
     public partial class DrawablePumpTrainerHitObject : DrawableHitObject<PumpTrainerHitObject>
     {
-        public const int WIDTH = 80;
+        public const int WIDTH = 85;
 
         public DrawablePumpTrainerHitObject(PumpTrainerHitObject hitObject)
             : base(hitObject)
