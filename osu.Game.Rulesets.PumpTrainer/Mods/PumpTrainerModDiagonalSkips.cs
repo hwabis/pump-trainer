@@ -7,22 +7,20 @@ using osu.Game.Rulesets.PumpTrainer.Beatmaps;
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods
 {
-    public class PumpTrainerModDiagonalTwists : Mod, IApplicableToBeatmapConverter
+    public class PumpTrainerModDiagonalSkips : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
-        public Bindable<double> DiagonalTwistFrequency { get; } = new BindableDouble(0.5)
+        public Bindable<double> DiagonalSkipFrequency { get; } = new BindableDouble(0.53)
         {
             MinValue = 0.1,
             MaxValue = 1.0,
-            Default = 0.5,
+            Default = 0.3,
             Precision = 0.1,
         };
 
-        public override string Name => "[AT LEAST S] Diagonal twists";
-        public override string Acronym => "DDD";
-        public override LocalisableString Description =>
-            "Crossovers across a single panel, including the center panel.\n" +
-            "Requires the \"horizontal twists\" mod to be enabled.";
+        public override string Name => "[AT LEAST S] Diagonal skips";
+        public override string Acronym => "DD";
+        public override LocalisableString Description => "Crossovers across a single panel, skipping over the center panel.\n";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
 
@@ -30,7 +28,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.Settings.DiagonalTwistFrequency = DiagonalTwistFrequency.Value;
+            pumpBeatmapConverter.Settings.DiagonalSkipFrequency = DiagonalSkipFrequency.Value;
         }
     }
 }

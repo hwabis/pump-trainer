@@ -135,7 +135,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
             possiblyAddHorizontalTwistsToCandidates(candidateColumns);
-            // TODO add diagonal skips
+            possiblyAddDiagonalSkipsToCandidates(candidateColumns);
 
             // The only reason we're removing singles twists after adding them to the candidates via the main dictionaries instead
             // of putting the twists in separate dictionaries then adding the twists in that separate dictionary conditionally based on the setting
@@ -179,6 +179,50 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     if (nextColumnsPreviousFootRightHorizontalTwist.ContainsKey(previousColumnNonNull))
                     {
                         twistColumnsToAdd = nextColumnsPreviousFootRightHorizontalTwist[previousColumnNonNull];
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+                candidates.AddRange(twistColumnsToAdd);
+            }
+        }
+
+        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates)
+        {
+            Column previousColumnNonNull;
+
+            if (previousColumn != null)
+            {
+                previousColumnNonNull = (Column)previousColumn;
+            }
+            else
+            {
+                return;
+            }
+
+            if (random.NextDouble() < Settings.DiagonalSkipFrequency)
+            {
+                List<Column> twistColumnsToAdd;
+
+                if (previousFoot == Foot.Left)
+                {
+                    if (nextColumnsPreviousFootLeftDiagonalSkip.ContainsKey(previousColumnNonNull))
+                    {
+                        twistColumnsToAdd = nextColumnsPreviousFootLeftDiagonalSkip[previousColumnNonNull];
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    if (nextColumnsPreviousFootRightDiagonalSkip.ContainsKey(previousColumnNonNull))
+                    {
+                        twistColumnsToAdd = nextColumnsPreviousFootRightDiagonalSkip[previousColumnNonNull];
                     }
                     else
                     {
