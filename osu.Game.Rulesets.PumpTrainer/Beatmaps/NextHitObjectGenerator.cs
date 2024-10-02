@@ -38,18 +38,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightHorizontalTwist = [];
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftLargeTwist = new()
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftDiagonalSkip = new()
         {
             { Column.P1UR, [Column.P1DL] },
             { Column.P1DR, [Column.P1UL] },
-            { Column.P2DL, [Column.P1C] },
-            { Column.P2UL, [Column.P1C] },
-            { Column.P2C, [Column.P1UR, Column.P1DR] },
             { Column.P2UR, [Column.P2DL] },
             { Column.P2DR, [Column.P2UL] },
         };
 
-        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightLargeTwist = [];
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightDiagonalSkip = [];
 
         private Dictionary<Column, Column> horizontalFlips = new()
         {
@@ -138,7 +135,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
             possiblyAddHorizontalTwistsToCandidates(candidateColumns);
-            // TODO add large crossovers
+            // TODO add diagonal skips
 
             // The only reason we're removing singles twists after adding them to the candidates via the main dictionaries instead
             // of putting the twists in separate dictionaries then adding the twists in that separate dictionary conditionally based on the setting
@@ -330,31 +327,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            // Ban this long horizontal twist thing no matter what
-            // Like bro idek how I thought to cover this case
-            if (previousColumn == Column.P1C)
-            {
-                if (previousPreviousColumn == Column.P2UL)
-                {
-                    candidateColumns.Remove(Column.P1UL);
-                }
-                if (previousPreviousColumn == Column.P2DL)
-                {
-                    candidateColumns.Remove(Column.P1DL);
-                }
-            }
-            else if (previousColumn == Column.P2C)
-            {
-                if (previousPreviousColumn == Column.P1UR)
-                {
-                    candidateColumns.Remove(Column.P2UR);
-                }
-                if (previousPreviousColumn == Column.P1DR)
-                {
-                    candidateColumns.Remove(Column.P2DR);
-                }
-            }
-
             // Ban diagonal twists
             if (random.NextDouble() > Settings.DiagonalTwistFrequency)
             {
@@ -368,11 +340,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     {
                         candidateColumns.Remove(Column.P1DR);
                     }
-                    else if (previousPreviousColumn == Column.P1DR || previousPreviousColumn == Column.P2DL)
+                    else if (previousPreviousColumn == Column.P1DR)
                     {
                         candidateColumns.Remove(Column.P1UL);
                     }
-                    else if (previousPreviousColumn == Column.P1UR || previousPreviousColumn == Column.P2UL)
+                    else if (previousPreviousColumn == Column.P1UR)
                     {
                         candidateColumns.Remove(Column.P1DL);
                     }
@@ -387,11 +359,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     {
                         candidateColumns.Remove(Column.P2DL);
                     }
-                    else if (previousPreviousColumn == Column.P1DR || previousPreviousColumn == Column.P2DL)
+                    else if (previousPreviousColumn == Column.P2DL)
                     {
                         candidateColumns.Remove(Column.P2UR);
                     }
-                    else if (previousPreviousColumn == Column.P1UR || previousPreviousColumn == Column.P2UL)
+                    else if (previousPreviousColumn == Column.P2UL)
                     {
                         candidateColumns.Remove(Column.P2DR);
                     }
@@ -479,7 +451,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     nextColumnsPreviousFootRightHorizontalTwist[column] = nextColumnsPreviousFootLeftHorizontalTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
                 }
 
-                // TODO large twist
+                if (nextColumnsPreviousFootLeftDiagonalSkip.ContainsKey(flippedColumn))
+                {
+                    nextColumnsPreviousFootRightDiagonalSkip[column] = nextColumnsPreviousFootLeftDiagonalSkip[flippedColumn].Select(n => horizontalFlips[n]).ToList();
+                }
             }
         }
     }

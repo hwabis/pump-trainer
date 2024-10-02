@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Acronym => "S";
         public override LocalisableString Description =>
             "Reduces the frequency of the right foot hitting the left pads, and vice versa, in the context of singles.\n" +
-            "Do not use this mod for doubles.";
+            "Not recommended for doubles.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
         public override Type[] IncompatibleMods => new Type[]
