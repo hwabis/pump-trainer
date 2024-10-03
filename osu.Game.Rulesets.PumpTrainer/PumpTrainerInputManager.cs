@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.ComponentModel;
 using osu.Framework.Input.Bindings;
 using osu.Game.Rulesets.UI;
 
@@ -17,10 +16,15 @@ namespace osu.Game.Rulesets.PumpTrainer
 
     public enum PumpTrainerAction
     {
-        [Description("Button 1")]
-        Button1,
-
-        [Description("Button 2")]
-        Button2,
+        P1DL,
+        P1UL,
+        P1C,
+        P1UR,
+        P1DR,
+        P2DL,
+        P2UL,
+        P2C,
+        P2UR,
+        P2DR,
     }
 }

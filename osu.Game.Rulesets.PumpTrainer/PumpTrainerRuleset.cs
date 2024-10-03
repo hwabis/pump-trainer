@@ -79,8 +79,16 @@ namespace osu.Game.Rulesets.PumpTrainer
 
         public override IEnumerable<KeyBinding> GetDefaultKeyBindings(int variant = 0) => new[]
         {
-            new KeyBinding(InputKey.Z, PumpTrainerAction.Button1),
-            new KeyBinding(InputKey.X, PumpTrainerAction.Button2),
+            new KeyBinding(InputKey.Z, PumpTrainerAction.P1DL),
+            new KeyBinding(InputKey.Q, PumpTrainerAction.P1UL),
+            new KeyBinding(InputKey.S, PumpTrainerAction.P1C),
+            new KeyBinding(InputKey.E, PumpTrainerAction.P1UR),
+            new KeyBinding(InputKey.C, PumpTrainerAction.P1DR),
+            new KeyBinding(InputKey.V, PumpTrainerAction.P2DL),
+            new KeyBinding(InputKey.R, PumpTrainerAction.P2UL),
+            new KeyBinding(InputKey.G, PumpTrainerAction.P2C),
+            new KeyBinding(InputKey.Y, PumpTrainerAction.P2UR),
+            new KeyBinding(InputKey.N, PumpTrainerAction.P2DR),
         };
 
         public override Drawable CreateIcon() => new SpriteText
