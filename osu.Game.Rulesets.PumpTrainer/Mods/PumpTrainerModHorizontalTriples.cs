@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "Horizontal triples";
+        public override string Name => "Horizontal Triples";
         public override string Acronym => "HHH";
         public override LocalisableString Description =>
             "Three consecutive notes spanning three physical dance pad columns (not note columns) in one direction.";

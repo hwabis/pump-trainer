@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "Horizontal twists";
+        public override string Name => "Horizontal Twists";
         public override string Acronym => "H";
         public override LocalisableString Description =>
             "Horizontal crossovers across a center panel.\n" +

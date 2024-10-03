@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "[AT LEAST S] Diagonal skips";
+        public override string Name => "[AT LEAST S] Diagonal Skips";
         public override string Acronym => "DD";
         public override LocalisableString Description => "Crossovers across a single panel, skipping over the center panel.\n";
         public override double ScoreMultiplier => 1;
