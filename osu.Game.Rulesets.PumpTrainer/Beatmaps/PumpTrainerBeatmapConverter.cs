@@ -24,6 +24,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         protected override IEnumerable<PumpTrainerHitObject> ConvertHitObject(HitObject original, IBeatmap beatmap, CancellationToken cancellationToken)
         {
+            if (Settings.AllowedColumns.Count == 0)
+            {
+                yield break;
+            }
+
             yield return generator.GetNextHitObject(original.StartTime, beatmap);
 
             if (original is IHasDuration hasDuration)
