@@ -133,40 +133,27 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             List<Column> candidateColumns = (nextFoot == Foot.Left ?
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
-            possiblyAddHorizontalTwistsToCandidates(candidateColumns);
-            possiblyAddDiagonalSkipsToCandidates(candidateColumns);
+            possiblyAddHorizontalTwistsToCandidates(candidateColumns, previousColumn);
+            possiblyAddDiagonalSkipsToCandidates(candidateColumns, previousColumn);
 
-            // The only reason we're removing singles twists after adding them to the candidates via the main dictionaries instead
-            // of putting the twists in separate dictionaries then adding the twists in that separate dictionary conditionally based on the setting
-            // is because this kind of twist is super common in doubles charts, and playing without them in doubles would be super weird.
-            // So, it would feel weird to not include them in the main dictionaries.
-            possiblyBanSinglesTwists(candidateColumns);
+            // Easy mod bans
+            possiblyBanSinglesTwists(candidateColumns, previousColumn);
+            possiblyBanFarColumns(candidateColumns, previousColumn);
 
             return candidateColumns;
         }
 
-        private void possiblyAddHorizontalTwistsToCandidates(List<Column> candidates)
+        private void possiblyAddHorizontalTwistsToCandidates(List<Column> candidates, Column previousColumn)
         {
-            Column previousColumnNonNull;
-
-            if (previousColumn != null)
-            {
-                previousColumnNonNull = (Column)previousColumn;
-            }
-            else
-            {
-                return;
-            }
-
             if (random.NextDouble() < Settings.HorizontalTwistFrequency)
             {
                 List<Column> twistColumnsToAdd;
 
                 if (previousFoot == Foot.Left)
                 {
-                    if (nextColumnsPreviousFootLeftHorizontalTwist.ContainsKey(previousColumnNonNull))
+                    if (nextColumnsPreviousFootLeftHorizontalTwist.ContainsKey(previousColumn))
                     {
-                        twistColumnsToAdd = nextColumnsPreviousFootLeftHorizontalTwist[previousColumnNonNull];
+                        twistColumnsToAdd = nextColumnsPreviousFootLeftHorizontalTwist[previousColumn];
                     }
                     else
                     {
@@ -175,9 +162,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
                 else
                 {
-                    if (nextColumnsPreviousFootRightHorizontalTwist.ContainsKey(previousColumnNonNull))
+                    if (nextColumnsPreviousFootRightHorizontalTwist.ContainsKey(previousColumn))
                     {
-                        twistColumnsToAdd = nextColumnsPreviousFootRightHorizontalTwist[previousColumnNonNull];
+                        twistColumnsToAdd = nextColumnsPreviousFootRightHorizontalTwist[previousColumn];
                     }
                     else
                     {
@@ -189,28 +176,17 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates)
+        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates, Column previousColumn)
         {
-            Column previousColumnNonNull;
-
-            if (previousColumn != null)
-            {
-                previousColumnNonNull = (Column)previousColumn;
-            }
-            else
-            {
-                return;
-            }
-
             if (random.NextDouble() < Settings.DiagonalSkipFrequency)
             {
                 List<Column> twistColumnsToAdd;
 
                 if (previousFoot == Foot.Left)
                 {
-                    if (nextColumnsPreviousFootLeftDiagonalSkip.ContainsKey(previousColumnNonNull))
+                    if (nextColumnsPreviousFootLeftDiagonalSkip.ContainsKey(previousColumn))
                     {
-                        twistColumnsToAdd = nextColumnsPreviousFootLeftDiagonalSkip[previousColumnNonNull];
+                        twistColumnsToAdd = nextColumnsPreviousFootLeftDiagonalSkip[previousColumn];
                     }
                     else
                     {
@@ -219,9 +195,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
                 else
                 {
-                    if (nextColumnsPreviousFootRightDiagonalSkip.ContainsKey(previousColumnNonNull))
+                    if (nextColumnsPreviousFootRightDiagonalSkip.ContainsKey(previousColumn))
                     {
-                        twistColumnsToAdd = nextColumnsPreviousFootRightDiagonalSkip[previousColumnNonNull];
+                        twistColumnsToAdd = nextColumnsPreviousFootRightDiagonalSkip[previousColumn];
                     }
                     else
                     {
@@ -233,24 +209,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyBanSinglesTwists(List<Column> candidates)
+        private void possiblyBanSinglesTwists(List<Column> candidates, Column previousColumn)
         {
-            Column previousColumnNonNull;
-
-            if (previousColumn != null)
-            {
-                previousColumnNonNull = (Column)previousColumn;
-            }
-            else
-            {
-                return;
-            }
-
             if (random.NextDouble() > Settings.SinglesTwistFrequency)
             {
                 if (previousFoot == Foot.Left)
                 {
-                    switch (previousColumnNonNull)
+                    switch (previousColumn)
                     {
                         case Column.P1DL:
                             candidates.Remove(Column.P1UL);
@@ -268,7 +233,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
                 else
                 {
-                    switch (previousColumnNonNull)
+                    switch (previousColumn)
                     {
                         case Column.P1DR:
                             candidates.Remove(Column.P1UR);
@@ -284,6 +249,38 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                             return;
                     }
                 }
+            }
+        }
+
+        private void possiblyBanFarColumns(List<Column> candidates, Column previousColumn)
+        {
+            if (random.NextDouble() > Settings.FarColumnsFrequency)
+            {
+                List<Column> columnsToBan;
+                int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
+
+                if (previousColumn == Column.P1C || previousColumn == Column.P2C)
+                {
+                    // Just ban everything that's two columns away
+                    columnsToBan =
+                        columnToPhysicalColumn
+                        .Where(entry => entry.Value == previousPhysicalColumn + 2 || entry.Value == previousPhysicalColumn - 2)
+                        .Select(entry => entry.Key)
+                        .ToList();
+                }
+                else
+                {
+                    // Ban everything that's two columns away and that's also a center panel
+                    columnsToBan =
+                        columnToPhysicalColumn
+                        .Where(entry =>
+                            (entry.Value == previousPhysicalColumn + 2 || entry.Value == previousPhysicalColumn - 2)
+                                && (entry.Key == Column.P1C || entry.Key == Column.P2C))
+                        .Select(entry => entry.Key)
+                        .ToList();
+                }
+
+                candidates.RemoveAll(columnsToBan.Contains);
             }
         }
 
