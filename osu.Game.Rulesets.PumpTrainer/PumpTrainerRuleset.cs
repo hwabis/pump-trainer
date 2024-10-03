@@ -38,6 +38,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                     return new Mod[]
                     {
                         new PumpTrainerModBanSinglesTwists(),
+                        new PumpTrainerModHalfTime(),
                     };
 
                 case ModType.DifficultyIncrease:
@@ -47,6 +48,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                         new PumpTrainerModHorizontalTwists(),
                         new PumpTrainerModDiagonalTwists(),
                         new PumpTrainerModDiagonalSkips(),
+                        new PumpTrainerModDoubleTime(),
                     };
 
                 case ModType.Conversion:
