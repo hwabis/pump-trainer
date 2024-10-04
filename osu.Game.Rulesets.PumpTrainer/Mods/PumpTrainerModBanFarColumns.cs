@@ -28,9 +28,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override ModType Type => ModType.DifficultyReduction;
         public override Type[] IncompatibleMods => new Type[]
         {
-            typeof(PumpTrainerModHorizontalTwists),
-            typeof(PumpTrainerModDiagonalTwists),
-            typeof(PumpTrainerModHorizontalTriples),
             typeof(PumpTrainerModDiagonalSkips),
         };
 
