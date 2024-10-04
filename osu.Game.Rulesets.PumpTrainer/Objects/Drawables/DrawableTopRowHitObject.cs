@@ -1,5 +1,4 @@
 ﻿using osu.Framework.Allocation;
-using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osuTK;

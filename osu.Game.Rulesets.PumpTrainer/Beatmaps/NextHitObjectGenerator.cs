@@ -113,39 +113,40 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private Column getNextColumn(Foot nextFoot, Column previousColumn)
         {
-            List<Column> candidateColumns = getCandidateColumns(nextFoot, previousColumn);
-
+            List<Column> candidateColumns = getCandidateColumns(nextFoot, previousColumn, false);
             includeOnlyAllowedColumns(candidateColumns);
             banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left);
 
             if (candidateColumns.Count == 0)
             {
-                // We messed up. Do the whole thing again but don't ban anyone. Everything will fix itself eventually lol.......]
-                // TODO figure out how to remove this. It can mess stuff up by adding columns that are supposed to be excluded and adding banned patterns
-                candidateColumns = getCandidateColumns(nextFoot, previousColumn);
+                // We messed up. Do the whole thing again but this time, minimize the bans and maximize twists.
+                candidateColumns = getCandidateColumns(nextFoot, previousColumn, true);
+                includeOnlyAllowedColumns(candidateColumns);
+                // Banning patterns here is still safe because if worst case is that we're stuck trilling between two notes
+                banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left);
             }
 
             return getRandomCandidateColumn(candidateColumns, 4 /* magic number to reduce likeihood of trills */);
         }
 
-        private List<Column> getCandidateColumns(Foot nextFoot, Column previousColumn)
+        private List<Column> getCandidateColumns(Foot nextFoot, Column previousColumn, bool maximizeCandidateCount)
         {
             List<Column> candidateColumns = (nextFoot == Foot.Left ?
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
-            possiblyAddHorizontalTwistsToCandidates(candidateColumns, previousColumn);
-            possiblyAddDiagonalSkipsToCandidates(candidateColumns, previousColumn);
+            possiblyAddHorizontalTwistsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
+            possiblyAddDiagonalSkipsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
 
             // Easy mod bans
-            possiblyBanSinglesTwists(candidateColumns, previousColumn);
-            possiblyBanFarColumns(candidateColumns, previousColumn);
+            possiblyBanSinglesTwists(candidateColumns, previousColumn, maximizeCandidateCount);
+            possiblyBanFarColumns(candidateColumns, previousColumn, maximizeCandidateCount);
 
             return candidateColumns;
         }
 
-        private void possiblyAddHorizontalTwistsToCandidates(List<Column> candidates, Column previousColumn)
+        private void possiblyAddHorizontalTwistsToCandidates(List<Column> candidates, Column previousColumn, bool alwaysAdd)
         {
-            if (random.NextDouble() < Settings.HorizontalTwistFrequency)
+            if (random.NextDouble() < Settings.HorizontalTwistFrequency || alwaysAdd)
             {
                 List<Column> twistColumnsToAdd;
 
@@ -176,9 +177,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates, Column previousColumn)
+        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates, Column previousColumn, bool alwaysAdd)
         {
-            if (random.NextDouble() < Settings.DiagonalSkipFrequency)
+            if (random.NextDouble() < Settings.DiagonalSkipFrequency || alwaysAdd)
             {
                 List<Column> twistColumnsToAdd;
 
@@ -209,8 +210,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyBanSinglesTwists(List<Column> candidates, Column previousColumn)
+        private void possiblyBanSinglesTwists(List<Column> candidates, Column previousColumn, bool neverBan)
         {
+            if (neverBan)
+            {
+                return;
+            }
+
             if (random.NextDouble() > Settings.SinglesTwistFrequency)
             {
                 if (previousFoot == Foot.Left)
@@ -252,8 +258,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyBanFarColumns(List<Column> candidates, Column previousColumn)
+        private void possiblyBanFarColumns(List<Column> candidates, Column previousColumn, bool neverBan)
         {
+            if (neverBan)
+            {
+                return;
+            }
+
             if (random.NextDouble() > Settings.FarColumnsFrequency)
             {
                 List<Column> columnsToBan;

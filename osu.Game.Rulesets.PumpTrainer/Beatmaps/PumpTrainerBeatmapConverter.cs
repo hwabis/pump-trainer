@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         protected override IEnumerable<PumpTrainerHitObject> ConvertHitObject(HitObject original, IBeatmap beatmap, CancellationToken cancellationToken)
         {
-            if (Settings.AllowedColumns.Count == 0)
+            if (Settings.AllowedColumns.Count <= 1)
             {
                 yield break;
             }
