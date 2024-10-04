@@ -91,6 +91,9 @@ namespace osu.Game.Rulesets.PumpTrainer
             new KeyBinding(InputKey.V, PumpTrainerAction.P2DR),
         };
 
+        // TODO make an actual icon like an arrow or something.
+        // Apparently according to the tau developers, there's no good way to do the resource texture store stuff (???)
+        // so that's my excuse for putting this off
         public override Drawable CreateIcon() => new SpriteText
         {
             Anchor = Anchor.Centre,
