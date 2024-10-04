@@ -24,8 +24,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Replays
             {
                 Frames.Add(new PumpTrainerReplayFrame
                 {
-                    Time = hitObject.StartTime
-                    // todo: add required inputs and extra frames.
+                    Time = hitObject.StartTime,
+                    Actions = [PumpTrainerKeybindConversions.COLUMN_TO_ACTION[hitObject.Column]],
                 });
             }
         }

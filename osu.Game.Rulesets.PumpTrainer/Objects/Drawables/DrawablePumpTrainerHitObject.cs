@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
@@ -16,20 +15,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
     public partial class DrawablePumpTrainerHitObject : DrawableHitObject<PumpTrainerHitObject>, IKeyBindingHandler<PumpTrainerAction>
     {
         public const int WIDTH = 85;
-
-        private static Dictionary<PumpTrainerAction, Column> actionToColumn = new()
-        {
-            { PumpTrainerAction.P1DL, Column.P1DL },
-            { PumpTrainerAction.P1UL, Column.P1UL },
-            { PumpTrainerAction.P1C, Column.P1C },
-            { PumpTrainerAction.P1UR, Column.P1UR },
-            { PumpTrainerAction.P1DR, Column.P1DR },
-            { PumpTrainerAction.P2DL, Column.P2DL },
-            { PumpTrainerAction.P2UL, Column.P2UL },
-            { PumpTrainerAction.P2C, Column.P2C },
-            { PumpTrainerAction.P2UR, Column.P2UR },
-            { PumpTrainerAction.P2DR, Column.P2DR },
-        };
 
         public DrawablePumpTrainerHitObject(PumpTrainerHitObject hitObject)
             : base(hitObject)
@@ -84,7 +69,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 
         public bool OnPressed(KeyBindingPressEvent<PumpTrainerAction> e)
         {
-            if (actionToColumn[e.Action] == HitObject.Column)
+            if (PumpTrainerKeybindConversions.ACTION_TO_COLUMN[e.Action] == HitObject.Column)
             {
                 return UpdateResult(true);
             }
