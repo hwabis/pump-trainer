@@ -22,14 +22,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "[AT LEAST HALF-D] Ban Far Columns";
         public override string Acronym => "D";
         public override LocalisableString Description =>
-            "Reduces the frequency of two consecutive notes that are not in physically adjacent columns.\n" +
+            "Reduces the frequency of two consecutive notes in the half-doubles region that are not in physically adjacent columns.\n" +
             "Only has an effect on at least half-doubles.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
-        public override Type[] IncompatibleMods => new Type[]
-        {
-            typeof(PumpTrainerModDiagonalSkips),
-        };
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)
         {
