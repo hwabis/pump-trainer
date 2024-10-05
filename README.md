@@ -11,10 +11,15 @@ the ruleset file is provided here: https://github.com/hwabis/pump-trainer/releas
 
 ## helpful tips if u want to try this out
 
-- currently you can't actually play with a keyboard. i just shadow play with my feet because i don't really believe in hand PIU. (and i'm lazy to implement it)
+- keybinds:
+```
+Q E R Y
+ S   G
+Z C V N
+```
+- however, i mostly play with autoplay mod on and shadow playing with my feet
 - f3 and f4 in-game to change scroll speed. this is a keybind in osu! itself, not a ruleset keybind
-- taiko maps create the best charts because chart conversions only care about rhythm. but currently only osu! (standard) maps are able to be converted from song select. but you can build osu! from scratch but with [this to true](https://github.com/ppy/osu/blob/9fd6449fd8b7c8b7a9019d1d3a25cb46a5b5562c/osu.Game/Screens/Select/Carousel/CarouselBeatmap.cs#L34), and you'll see converted taiko maps. (thanks peppy for pointing this out)
-- you might have to tweak the mods to get good singles charts (or help figure out a better formula 😢)
+- experiment with all the mods to generate different patterns that you want to practice
 
 ## example outputs
 
