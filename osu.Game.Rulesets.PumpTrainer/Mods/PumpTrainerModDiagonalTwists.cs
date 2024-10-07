@@ -20,7 +20,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "[AT LEAST S] Diagonal Twists";
+        public override string Name => "[P1Single+] Diagonal Twists";
         public override string Acronym => "DDD";
         public override LocalisableString Description =>
             "Crossovers across a single panel, including the center panel.\n" +
