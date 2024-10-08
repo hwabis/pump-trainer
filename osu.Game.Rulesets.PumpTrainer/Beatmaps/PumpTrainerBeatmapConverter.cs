@@ -40,7 +40,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
                     double durationBetweenPoints = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
 
-                    for (double newHitObjectTime = original.StartTime + durationBetweenPoints; newHitObjectTime <= hasRepeats.EndTime; newHitObjectTime += durationBetweenPoints)
+                    const double rounding_error = 5;
+
+                    for (double newHitObjectTime = original.StartTime + durationBetweenPoints;
+                        newHitObjectTime <= hasRepeats.EndTime + rounding_error;
+                        newHitObjectTime += durationBetweenPoints)
                     {
                         yield return generator.GetNextHitObject(newHitObjectTime, beatmap);
                     }
