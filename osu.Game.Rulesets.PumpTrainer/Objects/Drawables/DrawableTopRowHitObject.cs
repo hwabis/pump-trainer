@@ -6,7 +6,6 @@ using osuTK.Graphics;
 
 namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 {
-    // todo idk lol
     public partial class DrawableTopRowHitObject : CompositeDrawable
     {
         private PumpTrainerHitObject hitObject;

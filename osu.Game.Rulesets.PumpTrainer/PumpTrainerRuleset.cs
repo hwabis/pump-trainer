@@ -31,7 +31,6 @@ namespace osu.Game.Rulesets.PumpTrainer
 
         public override IEnumerable<Mod> GetModsFor(ModType type)
         {
-            // TODO
             switch (type)
             {
                 case ModType.DifficultyReduction:
