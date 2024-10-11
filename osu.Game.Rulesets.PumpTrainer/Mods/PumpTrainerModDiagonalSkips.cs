@@ -12,11 +12,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
     public class PumpTrainerModDiagonalSkips : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
-        public Bindable<double> DiagonalSkipFrequency { get; } = new BindableDouble(0.3)
+        public Bindable<double> DiagonalSkipFrequency { get; } = new BindableDouble(0.5)
         {
             MinValue = 0.1,
             MaxValue = 1.0,
-            Default = 0.3,
+            Default = 0.5,
             Precision = 0.1,
         };
 

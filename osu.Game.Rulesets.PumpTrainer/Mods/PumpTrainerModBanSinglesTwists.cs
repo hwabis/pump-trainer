@@ -12,11 +12,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
     public class PumpTrainerModBanSinglesTwists : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
-        public Bindable<double> SinglesTwistFrequency { get; } = new BindableDouble(0.3)
+        public Bindable<double> SinglesTwistFrequency { get; } = new BindableDouble(0)
         {
             MinValue = 0,
             MaxValue = 0.9,
-            Default = 0.3,
+            Default = 0,
             Precision = 0.1,
         };
 
