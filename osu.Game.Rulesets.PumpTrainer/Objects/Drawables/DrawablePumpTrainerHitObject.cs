@@ -7,6 +7,7 @@ using osu.Framework.Graphics.Textures;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
 using osu.Game.Rulesets.Objects.Drawables;
+using osu.Game.Rulesets.PumpTrainer.UI;
 using osu.Game.Rulesets.Scoring;
 using osuTK;
 
@@ -16,7 +17,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
     {
         public const int WIDTH = 85;
 
-        public DrawablePumpTrainerHitObject(PumpTrainerHitObject hitObject)
+        private DrawableTopRowHitObject correspondingTopRowHitObject;
+
+        public DrawablePumpTrainerHitObject(PumpTrainerHitObject hitObject, PumpTrainerPlayfield playfield)
             : base(hitObject)
         {
             Size = new Vector2(WIDTH);
@@ -25,12 +28,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 
             // Indexes 0 to 9 so midpoint is 4.5
             X = (float)((int)HitObject.Column - 4.5) * WIDTH;
+
+            correspondingTopRowHitObject = playfield.TopRowHitObjects[(int)HitObject.Column];
         }
 
         [BackgroundDependencyLoader]
         private void load(TextureStore textures)
         {
-            AddInternal(HitObject.GetAssociatedSprite(textures));
+            AddInternal(HitObject.GetAssociatedSprite(textures, false));
         }
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
@@ -51,6 +56,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
                 return;
 
             ApplyResult(result);
+            correspondingTopRowHitObject.FlashOnHit();
         }
 
         protected override void UpdateHitStateTransforms(ArmedState state)

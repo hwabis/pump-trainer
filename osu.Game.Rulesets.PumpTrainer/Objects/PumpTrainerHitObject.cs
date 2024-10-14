@@ -1,6 +1,8 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System.Linq;
+using System.Text;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
@@ -23,9 +25,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
         }
 
         // does this belong here?
-        public Sprite GetAssociatedSprite(TextureStore textures)
+        public Sprite GetAssociatedSprite(TextureStore textures, bool gray)
         {
-            string textureString;
+            StringBuilder textureString = new();
 
             switch (Column)
             {
@@ -33,17 +35,22 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
                 case Column.P1DR:
                 case Column.P2DL:
                 case Column.P2DR:
-                    textureString = "DL";
+                    textureString.Append("DL");
                     break;
                 case Column.P1UL:
                 case Column.P1UR:
                 case Column.P2UL:
                 case Column.P2UR:
-                    textureString = "UL";
+                    textureString.Append("UL");
                     break;
                 default:
-                    textureString = "C";
+                    textureString.Append("C");
                     break;
+            }
+
+            if (gray)
+            {
+                textureString.Append("-gray");
             }
 
             Sprite sprite = new()
@@ -51,7 +58,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
                 RelativeSizeAxes = Axes.Both,
                 Origin = Anchor.TopCentre,
                 Anchor = Anchor.TopCentre,
-                Texture = textures.Get(textureString),
+                Texture = textures.Get(textureString.ToString()),
             };
 
             switch (Column)

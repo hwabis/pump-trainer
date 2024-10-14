@@ -1,4 +1,5 @@
 ﻿using osu.Framework.Allocation;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osuTK;
@@ -16,13 +17,18 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
             this.hitObject = hitObject;
             Size = new Vector2(DrawablePumpTrainerHitObject.WIDTH);
 
-            Colour = Color4.Gray; // TODO OH MY GOD WHY CAN'T I GET THIS TO BE BLACK AND WHITE
+            Colour = Color4.Gray;
         }
 
         [BackgroundDependencyLoader]
         private void load(TextureStore textures)
         {
-            AddInternal(hitObject.GetAssociatedSprite(textures));
+            AddInternal(hitObject.GetAssociatedSprite(textures, true));
+        }
+
+        public void FlashOnHit()
+        {
+            this.FlashColour(Color4.White, 250, Easing.In);
         }
     }
 }

@@ -32,7 +32,8 @@ namespace osu.Game.Rulesets.PumpTrainer.UI
 
         protected override ReplayInputHandler CreateReplayInputHandler(Replay replay) => new PumpTrainerFramedReplayInputHandler(replay);
 
-        public override DrawableHitObject<PumpTrainerHitObject> CreateDrawableRepresentation(PumpTrainerHitObject h) => new DrawablePumpTrainerHitObject(h);
+        public override DrawableHitObject<PumpTrainerHitObject> CreateDrawableRepresentation(PumpTrainerHitObject h) =>
+            new DrawablePumpTrainerHitObject(h, (PumpTrainerPlayfield)Playfield);
 
         protected override PassThroughInputManager CreateInputManager() => new PumpTrainerInputManager(Ruleset?.RulesetInfo);
     }
