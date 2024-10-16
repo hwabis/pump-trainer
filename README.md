@@ -23,16 +23,16 @@ Z C V N
 
 ## example outputs
 
-converted map: https://osu.ppy.sh/beatmapsets/2087136#taiko/4373682
+converted map: https://osu.ppy.sh/beatmapsets/930846#osu/2206799
 
-### single no twists 
+### single (no twists) 
 
-https://github.com/user-attachments/assets/c9c61dd3-7718-482a-bb88-f08d606cdd41
+https://github.com/user-attachments/assets/91faeafd-4d69-4f80-a147-d8531865c7ec
 
-### single with a good amount of twists
+### single (with twists)
 
-https://github.com/user-attachments/assets/33d785c5-49f4-4038-a564-96976f352459
+https://github.com/user-attachments/assets/7815be18-0748-41b2-8f7c-0bb2c8fb4ecf
 
-### half-double
+### half-double (no twists)
 
-https://github.com/user-attachments/assets/cc90dbfa-ffef-413a-9ba6-c1bcce81fe00
+https://github.com/user-attachments/assets/c046f445-9545-4d48-8fde-9be732b602c2
