@@ -378,7 +378,47 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            // Ban diagonal twists
+            // Ban giant diagonal twists no matter what
+            if (previousColumn == Column.P1C)
+            {
+                if (previousPreviousColumn == Column.P1DL)
+                {
+                    candidateColumns.Remove(Column.P2UL);
+                }
+                else if (previousPreviousColumn == Column.P1UL)
+                {
+                    candidateColumns.Remove(Column.P2DL);
+                }
+                else if (previousPreviousColumn == Column.P2DL)
+                {
+                    candidateColumns.Remove(Column.P1UL);
+                }
+                else if (previousPreviousColumn == Column.P2UL)
+                {
+                    candidateColumns.Remove(Column.P1DL);
+                }
+            }
+            else if (previousColumn == Column.P2C)
+            {
+                if (previousPreviousColumn == Column.P2DR)
+                {
+                    candidateColumns.Remove(Column.P1UR);
+                }
+                else if (previousPreviousColumn == Column.P2UR)
+                {
+                    candidateColumns.Remove(Column.P1DR);
+                }
+                else if (previousPreviousColumn == Column.P1DR)
+                {
+                    candidateColumns.Remove(Column.P2UR);
+                }
+                else if (previousPreviousColumn == Column.P1UR)
+                {
+                    candidateColumns.Remove(Column.P2DR);
+                }
+            }
+
+            // Ban diagonal twists (single pad)
             if (random.NextDouble() > Settings.DiagonalTwistFrequency)
             {
                 if (previousColumn == Column.P1C)
