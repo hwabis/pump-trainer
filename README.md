@@ -1,6 +1,6 @@
 ## What is this?
 
-This is a ruleset for [osu](https://github.com/ppy/osu). It generates Pump It Up charts that are playable with two feet, from osu! beatmaps. That means no weird twists, spins, or splits are generated.
+This is a ruleset for [osu!](https://github.com/ppy/osu). It generates Pump It Up charts that are playable with two feet, from osu! beatmaps. That means no weird twists, spins, or splits are generated.
 So if you want to practice [WI-EX-DOC-VA D24](https://youtu.be/Q7lxEz3ibt0?t=156), this is not the place for you.
 
 ## How to install
