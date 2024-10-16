@@ -20,7 +20,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "[P1Single+] Ban Singles Twists";
+        public override string Name => "[P1Single+] Ban Simple Twists";
         public override string Acronym => "S";
         public override LocalisableString Description =>
             "Reduces the frequency of the right foot hitting the left pads, and vice versa, in the context of a single pad.";

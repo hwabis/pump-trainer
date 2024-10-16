@@ -424,22 +424,36 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             // Ban horizontal triples
             if (random.NextDouble() > Settings.HorizontalTripleFrequency)
             {
-                int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
-                int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];
+                // Only bother banning ban if both previous columns are in the half-doubles zone
+                if (columnIsInHalfDoublesZone(previousColumn) && columnIsInHalfDoublesZone(previousPreviousColumn))
+                {
+                    int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
+                    int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];
 
-                if (previousPhysicalColumn - previousPreviousPhysicalColumn == 1)
-                {
-                    // Going right!
-                    List<Column> columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value == previousPhysicalColumn + 1).Select(entry => entry.Key).ToList();
-                    candidateColumns.RemoveAll(columnsToBan.Contains);
-                }
-                else if (previousPhysicalColumn - previousPreviousPhysicalColumn == -1)
-                {
-                    // Going left!
-                    List<Column> columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value == previousPhysicalColumn - 1).Select(entry => entry.Key).ToList();
+                    List<Column> columnsToBan = [];
+
+                    if (previousPhysicalColumn - previousPreviousPhysicalColumn == 1)
+                    {
+                        // Going right!
+                        columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value == previousPhysicalColumn + 1).Select(entry => entry.Key).ToList();
+                    }
+                    else if (previousPhysicalColumn - previousPreviousPhysicalColumn == -1)
+                    {
+                        // Going left!
+                        columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value == previousPhysicalColumn - 1).Select(entry => entry.Key).ToList();
+                    }
+
+                    // Only ban columns that are in the half-doubles zone
+                    columnsToBan = columnsToBan.Where(columnIsInHalfDoublesZone).ToList();
+
                     candidateColumns.RemoveAll(columnsToBan.Contains);
                 }
             }
+        }
+
+        private bool columnIsInHalfDoublesZone(Column column)
+        {
+            return columnToPhysicalColumn[column] >= 1 && columnToPhysicalColumn[column] <= 4;
         }
 
         private Column getRandomCandidateColumn(List<Column> candidateColumns, int nonRepeatExtraWeight)

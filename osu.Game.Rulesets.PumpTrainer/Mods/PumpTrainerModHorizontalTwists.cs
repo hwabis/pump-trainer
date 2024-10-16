@@ -21,8 +21,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "Horizontal Twists";
         public override string Acronym => "H";
         public override LocalisableString Description =>
-            "Horizontal crossovers involving a center panel.\n" +
-            "Requires the \"horizontal triples\" mod to be enabled.";
+            "Horizontal crossovers involving a center panel.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
 
