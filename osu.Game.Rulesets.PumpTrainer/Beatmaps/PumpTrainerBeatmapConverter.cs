@@ -32,13 +32,16 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             yield return generator.GetNextHitObject(original.StartTime, beatmap);
 
-            if (original is IHasDuration hasDuration)
+            if (original is IHasRepeats hasRepeats)
             {
-                if (original is IHasRepeats hasRepeats)
-                {
-                    // Generate a hitobject for every repeat
+                // This is a slider. (Even sliders with no repeats counts as IHasRepeats)
 
-                    int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
+                int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
+
+                if (hitObjectsToReturnAfterFirst > 1)
+                {
+                    // This is a slider with at least one repeat
+
                     double durationBetweenPoints = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
 
                     // Buzz slider protection!
@@ -60,9 +63,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         yield return generator.GetNextHitObject(newHitObjectTime, beatmap);
                     }
                 }
-                else
+                else if (!Settings.IgnoreNormalSliderEnds)
                 {
-                    yield return generator.GetNextHitObject(hasDuration.EndTime, beatmap);
+                    // This is a slider with no repeats, and the mod for ignoring is slider ends is off
+
+                    yield return generator.GetNextHitObject(hasRepeats.EndTime, beatmap);
                 }
             }
         }
