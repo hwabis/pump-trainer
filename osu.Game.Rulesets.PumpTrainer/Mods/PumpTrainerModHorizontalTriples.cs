@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "[Half-Dbl+] Horizontal Triples";
         public override string Acronym => "HHH";
         public override LocalisableString Description =>
-            "Three consecutive notes spanning three physical dance pad columns (not note columns) in one direction, in the half-doubles region.";
+            "Three consecutive notes spanning three physical dance pad columns (not note columns) in a single direction.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
         public override Type[] IncompatibleMods => new Type[]
