@@ -378,24 +378,28 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            // Ban giant diagonal twists no matter what
+            // Ban large diagonal twists and large horizontal twists no matter what
             if (previousColumn == Column.P1C)
             {
                 if (previousPreviousColumn == Column.P1DL)
                 {
                     candidateColumns.Remove(Column.P2UL);
+                    candidateColumns.Remove(Column.P2DL);
                 }
                 else if (previousPreviousColumn == Column.P1UL)
                 {
                     candidateColumns.Remove(Column.P2DL);
+                    candidateColumns.Remove(Column.P2UL);
                 }
                 else if (previousPreviousColumn == Column.P2DL)
                 {
                     candidateColumns.Remove(Column.P1UL);
+                    candidateColumns.Remove(Column.P1DL);
                 }
                 else if (previousPreviousColumn == Column.P2UL)
                 {
                     candidateColumns.Remove(Column.P1DL);
+                    candidateColumns.Remove(Column.P1UL);
                 }
             }
             else if (previousColumn == Column.P2C)
@@ -403,18 +407,22 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 if (previousPreviousColumn == Column.P2DR)
                 {
                     candidateColumns.Remove(Column.P1UR);
+                    candidateColumns.Remove(Column.P1DR);
                 }
                 else if (previousPreviousColumn == Column.P2UR)
                 {
                     candidateColumns.Remove(Column.P1DR);
+                    candidateColumns.Remove(Column.P1UR);
                 }
                 else if (previousPreviousColumn == Column.P1DR)
                 {
                     candidateColumns.Remove(Column.P2UR);
+                    candidateColumns.Remove(Column.P2DR);
                 }
                 else if (previousPreviousColumn == Column.P1UR)
                 {
                     candidateColumns.Remove(Column.P2DR);
+                    candidateColumns.Remove(Column.P2UR);
                 }
             }
 
