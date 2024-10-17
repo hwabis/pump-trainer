@@ -50,13 +50,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public double DiagonalSkipFrequency = 0;
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate 3 adjacent notes that span consecutive, unique columns on the physical dance pad,
-        /// in the half-double region (not a singles pad).
+        /// 0 to 1 determining how frequently to generate 3 adjacent notes that span unique columns on the physical dance pad,
+        /// and go in one direction (i.e. only left, or only right).
+        /// The only exception to this are triples that are all within 1 singles pad.
         /// Higher means more likely. For example, P1UR and P1DR are on the same unique column on the physical dance pad.
-        /// Example starting left foot: P1C --> P1DR --> P2UL
-        /// Example starting right foot: P2UL --> P1DR --> P1C (horizontal twists would have to be on for this to happen)
-        /// NOT a horizontal triple: starting left foot: P1C --> P2UL --> P1DR
-        /// NOT a horizontal triple, starting left foot: P1UL --> P1C --> P1UR (because it only spans a singles pad)
+        /// Example: P1C --> P1DR --> P2UL
+        /// Example: P2UL --> P1DR --> P1C
+        /// NOT a horizontal triple: P1C --> P2UL --> P2DL (because the physical columns are not unique)
+        /// NOT a horizontal triple: P1C --> P2UL --> P1DR (because the notes do not go in one direction)
+        /// NOT a horizontal triple: P1UL --> P1C --> P1UR (because the notes only span a singles pad)
         /// </summary>
         public double HorizontalTripleFrequency = 0;
 
