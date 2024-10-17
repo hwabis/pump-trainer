@@ -18,9 +18,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         /// <summary>
         /// For osu! sliders with no repeats, this represents whether to convert the end of the slider to a hitobject.
+        /// Even if this is true, the slider must be at least length 1/4 of a beat for its end to be converted.
         /// (For repeating sliders, each slider end is always converted to hitobjects whether this is true or false.)
         /// </summary>
-        public bool IgnoreNormalSliderEnds = false;
+        public bool CountNormalSliderEnds = true;
 
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
@@ -40,40 +41,42 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             if (original is IHasRepeats hasRepeats)
             {
-                // This is a slider. (Even sliders with no repeats counts as IHasRepeats)
+                // This is a slider. (Even a sliders with no repeats is IHasRepeats)
 
                 int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
 
+                double durationBetweenHitObjects = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
+                TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
+
+                const double rounding_error = 5;
+
                 if (hitObjectsToReturnAfterFirst > 1)
                 {
-                    // This is a slider with at least one repeat
-
-                    double durationBetweenPoints = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
-
-                    // Buzz slider protection!
-                    // If the duration between the points is too small (e.g. the beatmap has a 1/6 or 1/8 buzz slider instead of the typical 1/4 (blue tick)),
+                    // This is a slider with at least one repeat. Apply buzz slider protection:
+                    // If the duration between the points is shorter than 1/4 of a beat,
                     // fill the duration with notes 1/4 apart instead of with the original rhythm.
-                    TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
 
-                    if (durationBetweenPoints < currentTimingPoint.BeatLength / 4)
+                    if (durationBetweenHitObjects < currentTimingPoint.BeatLength / 4)
                     {
-                        durationBetweenPoints = currentTimingPoint.BeatLength / 4;
+                        durationBetweenHitObjects = currentTimingPoint.BeatLength / 4;
                     }
 
-                    const double rounding_error = 5;
-
-                    for (double newHitObjectTime = original.StartTime + durationBetweenPoints;
+                    for (double newHitObjectTime = original.StartTime + durationBetweenHitObjects;
                         newHitObjectTime <= hasRepeats.EndTime + rounding_error;
-                        newHitObjectTime += durationBetweenPoints)
+                        newHitObjectTime += durationBetweenHitObjects)
                     {
                         yield return generator.GetNextHitObject(newHitObjectTime, beatmap);
                     }
                 }
-                else if (!IgnoreNormalSliderEnds)
+                else if (CountNormalSliderEnds)
                 {
-                    // This is a slider with no repeats, and the mod for ignoring is slider ends is off
+                    // This is a slider with no repeats. Only create a hitobject for the ending of the slider if
+                    // the slider length is at least a 1/4 beat.
 
-                    yield return generator.GetNextHitObject(hasRepeats.EndTime, beatmap);
+                    if (durationBetweenHitObjects > currentTimingPoint.BeatLength / 4 - rounding_error)
+                    {
+                        yield return generator.GetNextHitObject(hasRepeats.EndTime, beatmap);
+                    }
                 }
             }
         }
