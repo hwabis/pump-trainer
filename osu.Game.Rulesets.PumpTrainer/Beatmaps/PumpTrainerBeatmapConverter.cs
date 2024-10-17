@@ -16,6 +16,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public PumpTrainerBeatmapConverterSettings Settings => generator.Settings;
         private NextHitObjectGenerator generator = new();
 
+        /// <summary>
+        /// For osu! sliders with no repeats, this represents whether to convert the end of the slider to a hitobject.
+        /// (For repeating sliders, each slider end is always converted to hitobjects whether this is true or false.)
+        /// </summary>
+        public bool IgnoreNormalSliderEnds = false;
+
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
         {
@@ -63,7 +69,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         yield return generator.GetNextHitObject(newHitObjectTime, beatmap);
                     }
                 }
-                else if (!Settings.IgnoreNormalSliderEnds)
+                else if (!IgnoreNormalSliderEnds)
                 {
                     // This is a slider with no repeats, and the mod for ignoring is slider ends is off
 

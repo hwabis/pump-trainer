@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.Settings.IgnoreNormalSliderEnds = true;
+            pumpBeatmapConverter.IgnoreNormalSliderEnds = true;
         }
     }
 }

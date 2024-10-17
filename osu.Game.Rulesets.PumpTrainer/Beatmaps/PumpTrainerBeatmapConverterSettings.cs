@@ -5,12 +5,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverterSettings
     {
-        /// <summary>
-        /// For osu! sliders with no repeats, this represents whether to convert the end of the slider to a hitobject.
-        /// (For repeating sliders, each slider end is always converted to hitobjects whether this is true or false.)
-        /// </summary>
-        public bool IgnoreNormalSliderEnds = false;
-
         public List<Column> AllowedColumns =
             [Column.P1DL, Column.P1UL, Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C, Column.P2UR, Column.P2DR];
 
