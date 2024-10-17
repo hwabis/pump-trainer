@@ -39,8 +39,6 @@ https://github.com/user-attachments/assets/c046f445-9545-4d48-8fde-9be732b602c2
 
 ### Full-double
 
-Converted map: https://osu.ppy.sh/beatmapsets/2044373#osu/4266945
+Converted map: https://osu.ppy.sh/beatmapsets/2054500#osu/4292341
 
-https://github.com/user-attachments/assets/23ebd3fd-5c7d-425a-9d91-a9b8c187df5e
-
-
+https://github.com/user-attachments/assets/ae54a29e-7d82-45f7-bf90-9efe099c7fbb
