@@ -10,7 +10,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "Ignore osu! Slider Ends";
         public override string Acronym => "SE";
         public override LocalisableString Description =>
-            "Recommended for osu! \"tech\"-style maps which have difficult rhythms.";
+            "Recommended for certain osu! \"tech\"-style maps.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
 
