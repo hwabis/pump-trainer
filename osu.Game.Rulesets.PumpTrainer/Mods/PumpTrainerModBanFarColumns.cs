@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "[Half-Dbl+] Ban Far Columns";
         public override string Acronym => "D";
         public override LocalisableString Description =>
-            "Reduces the frequency of two consecutive notes in the half-doubles region that are not in physically adjacent columns.";
+            "Bans two consecutive notes in the half-doubles region that are not in physically adjacent columns.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
         public override Type[] IncompatibleMods => new Type[]

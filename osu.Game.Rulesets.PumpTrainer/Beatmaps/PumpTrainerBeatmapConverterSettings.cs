@@ -12,12 +12,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// 0 to 1 determining how frequently to generate a singles "twist" that's not a horizontal twist. Higher means more likely.
         /// Example starting left foot: C --> UR --> DR
         /// Example starting left foot: C --> DR --> UR
+        /// NON-example starting left foot: UL --> C --> UR (this is a horizontal twist)
+        /// tl;dr When this is 0, you get something resembling the very ending of Flavor Step D19.
         /// </summary>
         public double SinglesTwistFrequency = 1;
 
         /// <summary>
         /// 0 to 1 determining how frequently to generate two notes that are in adjacent columns on the physical dance pad.
-        /// One of the notes must be a center panel (aka they do not span across a center panel).
+        /// One of the notes must be a center panel (aka they do not span across a center panel, aka they must be in the half-doubles region).
         /// Higher means more likely.
         /// Example starting left foot: P1C --> P2UL
         /// Example starting right foot: P2DL --> P1C
@@ -50,9 +52,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// Higher means more likely. For example, P1UR and P1DR are on the same unique column on the physical dance pad.
         /// Example: P1C --> P1DR --> P2UL
         /// Example: P2UL --> P1DR --> P1C
-        /// NOT a horizontal triple: P1C --> P2UL --> P2DL (because the physical columns are not unique)
-        /// NOT a horizontal triple: P1C --> P2UL --> P1DR (because the notes do not go in one direction)
-        /// NOT a horizontal triple: P1UL --> P1C --> P1UR (because the notes only span a singles pad)
+        /// NON-example: P1C --> P2UL --> P2DL (because the physical columns are not unique)
+        /// NON-example: P1C --> P2UL --> P1DR (because the notes do not go in one direction)
+        /// NON-example: P1UL --> P1C --> P1UR (because the notes only span a singles pad)
         /// </summary>
         public double HorizontalTripleFrequency = 0;
 

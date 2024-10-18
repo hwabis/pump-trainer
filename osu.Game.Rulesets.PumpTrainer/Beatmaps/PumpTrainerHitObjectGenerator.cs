@@ -470,7 +470,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
 
             // Ban horizontal triples
-            if (random.NextDouble() > Settings.HorizontalTripleFrequency)
+            // We can't ban horizontal triples if the singles twists mod is on (so that we don't get "stuck" in a pattern)
+            if (random.NextDouble() > Settings.HorizontalTripleFrequency && Settings.SinglesTwistFrequency == 1)
             {
                 int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
                 int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];
@@ -523,7 +524,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 return candidateColumns[random.Next(candidateColumns.Count)];
             }
 
-            // Reduce the likelihood of trills using nonRepeatWeight
+            // Reduce the likelihood of trills using the non-repeat weight
 
             Column previousPreviousColumn = hitObjectsSoFar[^2].Column;
             List<Column> candidateColumnsWeighted = [];
@@ -537,17 +538,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     for (int i = 0; i < nonRepeatExtraWeight; i++)
                     {
                         candidateColumnsWeighted.Add(candidateColumn);
-                    }
-                }
-
-                if (Settings.SinglesTwistFrequency > 0)
-                {
-                    if (candidateColumn == Column.P1C || candidateColumn == Column.P2C)
-                    {
-                        for (int i = 0; i < Settings.SinglesTwistFrequency; i++)
-                        {
-                            candidateColumnsWeighted.Add(candidateColumn);
-                        }
                     }
                 }
             }
