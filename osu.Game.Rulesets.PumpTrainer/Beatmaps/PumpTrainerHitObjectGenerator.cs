@@ -82,7 +82,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         private Foot? previousFoot = null;
         private Column? previousColumn = null;
 
-        public PumpTrainerBeatmapConverterSettings Settings = new();
+        public PumpTrainerHitObjectGeneratorSettings Settings = new();
 
         public PumpTrainerHitObjectGenerator()
         {

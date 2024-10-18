@@ -3,7 +3,7 @@ using osu.Game.Rulesets.PumpTrainer.Objects;
 
 namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
-    public class PumpTrainerBeatmapConverterSettings
+    public class PumpTrainerHitObjectGeneratorSettings
     {
         public List<Column> AllowedColumns =
             [Column.P1DL, Column.P1UL, Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C, Column.P2UR, Column.P2DR];
@@ -58,7 +58,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// </summary>
         public double HorizontalTripleFrequency = 0;
 
-        public PumpTrainerBeatmapConverterSettings()
+        public PumpTrainerHitObjectGeneratorSettings()
         {
         }
     }
