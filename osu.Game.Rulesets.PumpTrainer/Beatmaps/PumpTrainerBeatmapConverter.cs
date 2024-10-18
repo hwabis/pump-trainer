@@ -14,7 +14,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
         public PumpTrainerBeatmapConverterSettings Settings => generator.Settings;
-        private NextHitObjectGenerator generator = new();
+        private PumpTrainerHitObjectGenerator generator = new();
 
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)

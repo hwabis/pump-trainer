@@ -7,7 +7,7 @@ using osu.Game.Rulesets.PumpTrainer.Objects;
 
 namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
-    public class NextHitObjectGenerator
+    public class PumpTrainerHitObjectGenerator
     {
         private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeft = new()
         {
@@ -84,7 +84,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         public PumpTrainerBeatmapConverterSettings Settings = new();
 
-        public NextHitObjectGenerator()
+        public PumpTrainerHitObjectGenerator()
         {
             initializeFootRightDictionaries();
         }
