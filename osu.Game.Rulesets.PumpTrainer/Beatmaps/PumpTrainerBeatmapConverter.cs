@@ -16,13 +16,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public PumpTrainerBeatmapConverterSettings Settings => generator.Settings;
         private NextHitObjectGenerator generator = new();
 
-        /// <summary>
-        /// For osu! sliders with no repeats, this represents whether to convert the end of the slider to a hitobject.
-        /// Even if this is true, the slider must be at least length 1/4 of a beat for its end to be converted.
-        /// (For repeating sliders, each slider end is always converted to hitobjects whether this is true or false.)
-        /// </summary>
-        public bool CountNormalSliderEnds = true;
-
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
         {
@@ -41,14 +34,14 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             if (original is IHasRepeats hasRepeats)
             {
-                // This is a slider. (Even a sliders with no repeats is IHasRepeats)
+                // This is a slider. (Even a slider with no repeats is IHasRepeats)
 
                 int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
 
                 double durationBetweenHitObjects = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
                 TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
 
-                const double rounding_error = 5;
+                const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
 
                 if (hitObjectsToReturnAfterFirst > 1)
                 {
@@ -68,15 +61,44 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         yield return generator.GetNextHitObject(newHitObjectTime, beatmap);
                     }
                 }
-                else if (CountNormalSliderEnds)
+                else if (durationBetweenHitObjects >= currentTimingPoint.BeatLength / 4 - rounding_error)
                 {
-                    // This is a slider with no repeats. Only create a hitobject for the ending of the slider if
-                    // the slider length is at least a 1/4 beat.
+                    // This is a slider with no repeats, and that's at least a 1/4 beat (same as buzz slider protection).
 
-                    if (durationBetweenHitObjects > currentTimingPoint.BeatLength / 4 - rounding_error)
+                    double hitObjectTimeForSliderEnd = hasRepeats.EndTime;
+
+                    if (durationBetweenHitObjects > currentTimingPoint.BeatLength / 2 + rounding_error)
                     {
-                        yield return generator.GetNextHitObject(hasRepeats.EndTime, beatmap);
+                        // The slider is longer than 1/2 a beat.
+                        // Round down to the nearest 1/4.
+
+                        double newEndTime = original.StartTime;
+
+                        while (newEndTime < hitObjectTimeForSliderEnd)
+                        {
+                            newEndTime += currentTimingPoint.BeatLength / 2;
+                        }
+
+                        hitObjectTimeForSliderEnd = newEndTime - currentTimingPoint.BeatLength / 2;
                     }
+                    else if (durationBetweenHitObjects > currentTimingPoint.BeatLength / 4 + rounding_error
+                        && durationBetweenHitObjects < currentTimingPoint.BeatLength / 2 - rounding_error)
+                    {
+                        // The slider length is longer than 1/4 but shorter than 1/2, so it has to be 3/8 or something.
+                        // Round down to the nearest 1/4.
+                        // Good test map: https://osu.ppy.sh/beatmapsets/929924#osu/2073258
+
+                        double newEndTime = original.StartTime;
+
+                        while (newEndTime < hitObjectTimeForSliderEnd)
+                        {
+                            newEndTime += currentTimingPoint.BeatLength / 4;
+                        }
+
+                        hitObjectTimeForSliderEnd = newEndTime - currentTimingPoint.BeatLength / 4;
+                    }
+
+                    yield return generator.GetNextHitObject(hitObjectTimeForSliderEnd, beatmap);
                 }
             }
         }

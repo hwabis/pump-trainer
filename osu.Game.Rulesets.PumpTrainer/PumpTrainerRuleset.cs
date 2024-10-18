@@ -38,7 +38,6 @@ namespace osu.Game.Rulesets.PumpTrainer
                     {
                         new PumpTrainerModBanSinglesTwists(),
                         new PumpTrainerModBanFarColumns(),
-                        new PumpTrainerModIgnoreOsuSliderEnds(),
                         new PumpTrainerModHalfTime(),
                     };
 
