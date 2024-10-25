@@ -18,14 +18,16 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         private PumpTrainerHitObjectGenerator generator = new();
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate a corner pattern on 1/4 rhythms (aka sixteenth rhythms).
-        /// (Corner patterns are usually banned on sixteenth rhythms.) Higher means more likely. Examples:
+        /// 0 to 1 determining how frequently to generate a corner pattern on 1/4 rhythms (aka sixteenth rhythms). Higher means more likely.
+        /// Corner patterns include 90 degree patterns and V shape patterns (see examples below).
+        /// (Corner patterns are usually banned on sixteenth rhythms.)
+        /// Examples:
         /// Starting left: UL, UR, DR (and 7 other variations per singles panel) - 90 degrees across a single panel.
         /// Starting left: UL, DR, UR (and 7 other variations per singles panel) - V shape across a single panel.
         /// </summary>
         public double CornersOnSixteenthRhythmsFrequency = 0;
 
-        private double startTimeOfPreviousHitObject = 0;
+        private double timeOfPreviousPumpHitObject = 0;
         private const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
 
         private static Random random = new();
@@ -44,10 +46,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 yield break;
             }
 
-            TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
-            const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
-
-            yield return getNextHitObject(original.StartTime, beatmap, noteIsInSixteenthRhythm(original.StartTime, currentTimingPoint.BeatLength / 4));
+            yield return getNextHitObject(original.StartTime, beatmap);
 
             if (original is IHasRepeats hasRepeats)
             {
@@ -56,6 +55,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
 
                 double durationBetweenHitObjects = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
+
+                TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
+                const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
 
                 if (hitObjectsToReturnAfterFirst > 1)
                 {
@@ -72,12 +74,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         newHitObjectTime <= hasRepeats.EndTime + rounding_error;
                         newHitObjectTime += durationBetweenHitObjects)
                     {
-                        yield return getNextHitObject(newHitObjectTime, beatmap, noteIsInSixteenthRhythm(newHitObjectTime, currentTimingPoint.BeatLength / 4));
+                        yield return getNextHitObject(newHitObjectTime, beatmap);
                     }
                 }
                 else if (durationBetweenHitObjects >= currentTimingPoint.BeatLength / 4 - rounding_error)
                 {
-                    // This is a slider with no repeats, and that's at least a 1/4 beat (same as buzz slider protection).
+                    // This is a slider with no repeats, and lasts at least a 1/4 beat (same as buzz slider protection).
 
                     double hitObjectTimeForSliderEnd = hasRepeats.EndTime;
 
@@ -112,23 +114,22 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         hitObjectTimeForSliderEnd = newEndTime - currentTimingPoint.BeatLength / 4;
                     }
 
-                    yield return getNextHitObject(hitObjectTimeForSliderEnd, beatmap, noteIsInSixteenthRhythm(hitObjectTimeForSliderEnd, currentTimingPoint.BeatLength / 4));
+                    yield return getNextHitObject(hitObjectTimeForSliderEnd, beatmap);
                 }
             }
         }
 
-        private PumpTrainerHitObject getNextHitObject(double startTime, IBeatmap beatmap, bool attemptToBanCornerPatterns)
+        private PumpTrainerHitObject getNextHitObject(double pumpHitObjectTime, IBeatmap beatmap)
         {
-            startTimeOfPreviousHitObject = startTime;
+            timeOfPreviousPumpHitObject = pumpHitObjectTime;
 
-            bool banCornerPatterns = attemptToBanCornerPatterns && random.NextDouble() > CornersOnSixteenthRhythmsFrequency;
-            return generator.GetNextHitObject(startTime, beatmap, banCornerPatterns);
-        }
+            // Ban corner patterns if the hit object being generated is in a 1/4 (sixteenth note) rhythm, unless the mod overrides it.
+            double lengthOfSixteenthRhythm = beatmap.ControlPointInfo.TimingPointAt(pumpHitObjectTime).BeatLength / 4;
+            bool banCornerPatterns =
+                pumpHitObjectTime - timeOfPreviousPumpHitObject <= lengthOfSixteenthRhythm + rounding_error
+                && random.NextDouble() > CornersOnSixteenthRhythmsFrequency;
 
-        // "sixteenth" rhythm (traditional music terminology) == 1/4 rhythm in osu
-        private bool noteIsInSixteenthRhythm(double startTime, double lengthOfSixteenthRhythm)
-        {
-            return startTime - startTimeOfPreviousHitObject <= lengthOfSixteenthRhythm + rounding_error;
+            return generator.GetNextHitObject(pumpHitObjectTime, beatmap, banCornerPatterns);
         }
     }
 }
