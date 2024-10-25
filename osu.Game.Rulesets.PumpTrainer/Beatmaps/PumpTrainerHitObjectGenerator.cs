@@ -84,13 +84,31 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         public PumpTrainerHitObjectGeneratorSettings Settings = new();
 
+        // Per-note setting
+        private bool banSinglesCornerPatterns;
+
         public PumpTrainerHitObjectGenerator()
         {
             initializeFootRightDictionaries();
         }
 
-        public PumpTrainerHitObject GetNextHitObject(double startTime, IBeatmap beatmap)
+        /// <summary>
+        /// Generates a hitobject solely based off the settings of this class and previously generated hitobjects.
+        /// Does NOT take into account any rhythms between the hitobject being generated and previously generated hitobjects.
+        /// </summary>
+        /// <param name="startTime">The start time of the next hitobject to generate.</param>
+        /// <param name="beatmap">The source beatmap we're generating objects based off. Typically an osu! beatmap.</param>
+        /// <param name="banSinglesCornerPatterns">
+        /// Whether to allow patterns crossing a single panel. The patterns banned by this arg are:
+        /// Starting left: UL, UR, DR (and the 7 other variations per singles panel). 90 degrees
+        /// Starting left: UL, DR, UR (and the 7 other variations per singles panel). V shape
+        /// It's an arg here instead of in PumpTrainerHitObjectGeneratorSettings because we want to set it per-note instead of on the whole beatmap.
+        /// </param>
+        /// <returns></returns>
+        public PumpTrainerHitObject GetNextHitObject(double startTime, IBeatmap beatmap, bool banSinglesCornerPatterns)
         {
+            this.banSinglesCornerPatterns = banSinglesCornerPatterns;
+
             // Always start on the left foot as the first note (for now?)
             Foot nextFoot = previousFoot == null || previousFoot == Foot.Right ? Foot.Left : Foot.Right;
 
@@ -119,10 +137,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             if (candidateColumns.Count == 0)
             {
-                // We messed up. Do the whole thing again but this time, minimize the bans and maximize twists.
+                // We messed up. Do the whole thing again but this time, allow all twists.
+                // There's probably a certain combination of mods that can break beatmap generation but I'm too lazy to figure those out
+                // since I don't think anybody would want to play with those weird combinations anyway.
+
                 candidateColumns = getCandidateColumns(nextFoot, previousColumn, true);
                 includeOnlyAllowedColumns(candidateColumns);
-                // Banning patterns here is still safe because if worst case is that we're stuck trilling between two notes
                 banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left);
             }
 
@@ -308,11 +328,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         /// <summary>
         /// Bans columns the given list of candidates based on the columns two most recent hit objects in the generated beatmap.
+        /// A pattern is a group of 3 notes (not 2).
         /// </summary>
         /// <param name="candidateColumns">Candidate columns to ban from.</param>
         /// <param name="previousFoot">Associated foot of the most recent hit object in the beatmap.</param>
         private void banColumnsCausingBannedPatterns(List<Column> candidateColumns, Foot previousFoot)
         {
+            // todo this function and maybe this whole class can be broken down into ban types and stuff
+            // so we can just add the types of bans we want to a list instead of this hugh mungus method
+
             if (hitObjectsSoFar.Count <= 1)
             {
                 // No possible bans if we're only on the first or second note
@@ -509,6 +533,77 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
 
                 candidateColumns.RemoveAll(columnsToBan.Contains);
+            }
+
+            if (banSinglesCornerPatterns)
+            {
+                // Ban 90 degree patterns
+                if (previousPreviousColumn == Column.P1UL && (previousColumn == Column.P1UR || previousColumn == Column.P1DL))
+                {
+                    candidateColumns.Remove(Column.P1DR);
+                }
+                else if (previousPreviousColumn == Column.P1DL && (previousColumn == Column.P1DR || previousColumn == Column.P1UL))
+                {
+                    candidateColumns.Remove(Column.P1UR);
+                }
+                else if (previousPreviousColumn == Column.P1UR && (previousColumn == Column.P1UL || previousColumn == Column.P1DR))
+                {
+                    candidateColumns.Remove(Column.P1DL);
+                }
+                else if (previousPreviousColumn == Column.P1DR && (previousColumn == Column.P1DL || previousColumn == Column.P1UR))
+                {
+                    candidateColumns.Remove(Column.P1UL);
+                }
+                else if (previousPreviousColumn == Column.P2UL && (previousColumn == Column.P2UR || previousColumn == Column.P2DL))
+                {
+                    candidateColumns.Remove(Column.P2DR);
+                }
+                else if (previousPreviousColumn == Column.P2DL && (previousColumn == Column.P2DR || previousColumn == Column.P2UL))
+                {
+                    candidateColumns.Remove(Column.P2UR);
+                }
+                else if (previousPreviousColumn == Column.P2UR && (previousColumn == Column.P2UL || previousColumn == Column.P2DR))
+                {
+                    candidateColumns.Remove(Column.P2DL);
+                }
+                else if (previousPreviousColumn == Column.P2DR && (previousColumn == Column.P2DL || previousColumn == Column.P2UR))
+                {
+                    candidateColumns.Remove(Column.P2UL);
+                }
+
+                // Ban V patterns
+                if (previousPreviousColumn == Column.P1UL && (previousColumn == Column.P1DR || previousColumn == Column.P1DL))
+                {
+                    candidateColumns.Remove(Column.P1UR);
+                }
+                else if (previousPreviousColumn == Column.P1DL && (previousColumn == Column.P1UR || previousColumn == Column.P1UL))
+                {
+                    candidateColumns.Remove(Column.P1DR);
+                }
+                else if (previousPreviousColumn == Column.P1UR && (previousColumn == Column.P1DL || previousColumn == Column.P1DR))
+                {
+                    candidateColumns.Remove(Column.P1UL);
+                }
+                else if (previousPreviousColumn == Column.P1DR && (previousColumn == Column.P1UL || previousColumn == Column.P1UR))
+                {
+                    candidateColumns.Remove(Column.P1DL);
+                }
+                else if (previousPreviousColumn == Column.P2UL && (previousColumn == Column.P2DR || previousColumn == Column.P2DL))
+                {
+                    candidateColumns.Remove(Column.P2UR);
+                }
+                else if (previousPreviousColumn == Column.P2DL && (previousColumn == Column.P2UR || previousColumn == Column.P2UL))
+                {
+                    candidateColumns.Remove(Column.P2DR);
+                }
+                else if (previousPreviousColumn == Column.P2UR && (previousColumn == Column.P2DL || previousColumn == Column.P2DR))
+                {
+                    candidateColumns.Remove(Column.P2UL);
+                }
+                else if (previousPreviousColumn == Column.P2DR && (previousColumn == Column.P2UL || previousColumn == Column.P2UR))
+                {
+                    candidateColumns.Remove(Column.P2DL);
+                }
             }
         }
 

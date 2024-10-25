@@ -16,6 +16,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public PumpTrainerHitObjectGeneratorSettings Settings => generator.Settings;
         private PumpTrainerHitObjectGenerator generator = new();
 
+        private double startTimeOfPreviousHitObject = 0;
+
+        private const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
+
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
         {
@@ -30,7 +34,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 yield break;
             }
 
-            yield return generator.GetNextHitObject(original.StartTime, beatmap);
+            TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
+            const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
+
+            yield return getNextHitObject(original.StartTime, beatmap, noteIsInSixteenthGroup(original.StartTime, currentTimingPoint.BeatLength / 4));
 
             if (original is IHasRepeats hasRepeats)
             {
@@ -39,9 +46,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 int hitObjectsToReturnAfterFirst = hasRepeats.RepeatCount + 1; // +1 for the last hit object
 
                 double durationBetweenHitObjects = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
-                TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
-
-                const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
 
                 if (hitObjectsToReturnAfterFirst > 1)
                 {
@@ -58,7 +62,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         newHitObjectTime <= hasRepeats.EndTime + rounding_error;
                         newHitObjectTime += durationBetweenHitObjects)
                     {
-                        yield return generator.GetNextHitObject(newHitObjectTime, beatmap);
+                        yield return getNextHitObject(newHitObjectTime, beatmap, noteIsInSixteenthGroup(newHitObjectTime, currentTimingPoint.BeatLength / 4));
                     }
                 }
                 else if (durationBetweenHitObjects >= currentTimingPoint.BeatLength / 4 - rounding_error)
@@ -98,9 +102,21 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                         hitObjectTimeForSliderEnd = newEndTime - currentTimingPoint.BeatLength / 4;
                     }
 
-                    yield return generator.GetNextHitObject(hitObjectTimeForSliderEnd, beatmap);
+                    yield return getNextHitObject(hitObjectTimeForSliderEnd, beatmap, noteIsInSixteenthGroup(hitObjectTimeForSliderEnd, currentTimingPoint.BeatLength / 4));
                 }
             }
+        }
+
+        private PumpTrainerHitObject getNextHitObject(double startTime, IBeatmap beatmap, bool banSinglesCornerPatterns)
+        {
+            startTimeOfPreviousHitObject = startTime;
+            return generator.GetNextHitObject(startTime, beatmap, banSinglesCornerPatterns);
+        }
+
+        // "sixteenth" rhythm (traditional music terminology) == 1/4 rhythm in osu
+        private bool noteIsInSixteenthGroup(double startTime, double lengthOfSixteenthRhythm)
+        {
+            return startTime - startTimeOfPreviousHitObject <= lengthOfSixteenthRhythm + rounding_error;
         }
     }
 }
