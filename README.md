@@ -23,22 +23,16 @@ Z C V N
 
 ## Example converted beatmaps
 
-Converted map: https://osu.ppy.sh/beatmapsets/930846#osu/2206799
+Converted map: https://osu.ppy.sh/beatmapsets/298245#osu/679019
 
-### Single (no twists) 
+### Single - no twists (would be ~S15)
 
-https://github.com/user-attachments/assets/91faeafd-4d69-4f80-a147-d8531865c7ec
+https://github.com/user-attachments/assets/91fb4707-e803-4fdc-be9d-0374acd1bb64
 
-### Single (with twists)
+### Full-double - no twists (would be ~D16)
 
-https://github.com/user-attachments/assets/7815be18-0748-41b2-8f7c-0bb2c8fb4ecf
+https://github.com/user-attachments/assets/8a4add67-482d-43ce-8a82-964e3aa20b54
 
-### Half-double (no twists)
+### Full-double - with twists (would be ~D17)
 
-https://github.com/user-attachments/assets/c046f445-9545-4d48-8fde-9be732b602c2
-
-### Full-double
-
-Converted map: https://osu.ppy.sh/beatmapsets/2054500#osu/4292341
-
-https://github.com/user-attachments/assets/ae54a29e-7d82-45f7-bf90-9efe099c7fbb
+https://github.com/user-attachments/assets/5226fec9-6ad1-4382-99e5-9381a1fab7b0
