@@ -46,6 +46,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                     {
                         new PumpTrainerModHorizontalTwists(),
                         new PumpTrainerModDiagonalTwists(),
+                        new PumpTrainerModCornersOnSixteenths(),
                         new PumpTrainerModDiagonalSkips(),
                         new PumpTrainerModHorizontalTriples(),
                         new PumpTrainerModDoubleTime(),
