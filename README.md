@@ -8,7 +8,7 @@ The current the formula generates charts with:
 - osu! slider rhythm simplification: 1/6 and 1/8 buzz sliders are simplified to 1/4's, and long sliders are simplified (e.g. 3/4 sliders are treated as 1/2)
 - By default with no mods:
   - No 90 degree twists in singles (e.g. DL --> DR --> UR) for 1/4 rhythms and faster
-  - No fast travels (e.g. P1C --> P1UR --> P2DL) for 1/4 rhythms and faster
+  - No fast travels in doubles (e.g. P1C --> P1UR --> P2DL, e.g. P2DL --> P1UR --> P1UL) for 1/4 rhythms and faster
 - Adjustable through mods:
   - Regular twists (e.g. C, UL)
   - Large twists (e.g. P2UL, P1C)
