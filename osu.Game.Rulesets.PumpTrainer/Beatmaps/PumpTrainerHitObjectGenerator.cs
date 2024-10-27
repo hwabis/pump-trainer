@@ -536,7 +536,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             // Ban horizontal triples
             // We can't ban horizontal triples if the singles twists mod is on (so that we don't get "stuck" in a pattern)
-            if (random.NextDouble() > Settings.HorizontalTripleFrequency && Settings.SinglesTwistFrequency == 1)
+            if (random.NextDouble() > perHitObjectsettings.HorizontalTripleFrequency && Settings.SinglesTwistFrequency == 1)
             {
                 int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
                 int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];

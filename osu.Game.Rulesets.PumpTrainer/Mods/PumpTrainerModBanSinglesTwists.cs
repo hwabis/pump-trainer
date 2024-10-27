@@ -32,7 +32,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             typeof(PumpTrainerModHorizontalTwists),
             typeof(PumpTrainerModCornersOnSixteenths),
             typeof(PumpTrainerModDiagonalSkips),
-            typeof(PumpTrainerModHorizontalTriples),
+            typeof(PumpTrainerModHorizontalTriplesOnSixteenths),
 
             typeof(PumpTrainerModExcludeP1DL),
             typeof(PumpTrainerModExcludeP1UL),

@@ -47,19 +47,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public double DiagonalSkipFrequency = 0;
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate 3 adjacent notes that span unique columns on the physical dance pad,
-        /// and go in one direction (i.e. only left, or only right).
-        /// The only exception to this are triples that are all within 1 singles pad.
-        /// Higher means more likely. For example, P1UR and P1DR are on the same unique column on the physical dance pad.
-        /// Example: P1C --> P1DR --> P2UL
-        /// Example: P2UL --> P1DR --> P1C
-        /// NON-example: P1C --> P2UL --> P2DL (because the physical columns are not unique)
-        /// NON-example: P1C --> P2UL --> P1DR (because the notes do not go in one direction)
-        /// NON-example: P1UL --> P1C --> P1UR (because the notes only span a singles pad)
-        /// </summary>
-        public double HorizontalTripleFrequency = 0;
-
-        /// <summary>
         /// 0 to 1 determining how frequently to generate a large horizontal twist. Higher means more likely.
         /// This kind of twist is very rare. Example charts are Uranium D24 and See D20 (those are actually the only charts I know of that have this pattern lol).
         /// Example starting right foot: P1C --> P2UL

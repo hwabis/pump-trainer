@@ -20,6 +20,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public PumpTrainerHitObjectGeneratorSettingsPerHitObject GeneratorSettingsForSixteenthRhythms = new()
         {
             CornersFrequency = 0,
+            HorizontalTripleFrequency = 0,
         };
 
         // Don't modify this one. This uses the default field values
@@ -117,19 +118,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private PumpTrainerHitObject getNextHitObject(double pumpHitObjectTime, IBeatmap beatmap)
         {
-            timeOfPreviousPumpHitObject = pumpHitObjectTime;
-
             double lengthOfSixteenthRhythm = beatmap.ControlPointInfo.TimingPointAt(pumpHitObjectTime).BeatLength / 4;
 
-            if (pumpHitObjectTime - timeOfPreviousPumpHitObject <= lengthOfSixteenthRhythm + rounding_error)
-            {
-                // The hit object being generated is in a 1/4 (sixteenth note) rhythm, so we need to use the individual hit object settings for sixteenth rhythms
-                return generator.GetNextHitObject(pumpHitObjectTime, beatmap, GeneratorSettingsForSixteenthRhythms);
-            }
-            else
-            {
-                return generator.GetNextHitObject(pumpHitObjectTime, beatmap, generator_settings_for_non_sixteenth_rhythms);
-            }
+            PumpTrainerHitObjectGeneratorSettingsPerHitObject perHitObjectSettingsToUse =
+                pumpHitObjectTime - timeOfPreviousPumpHitObject <= lengthOfSixteenthRhythm + rounding_error ?
+                GeneratorSettingsForSixteenthRhythms : generator_settings_for_non_sixteenth_rhythms;
+
+            timeOfPreviousPumpHitObject = pumpHitObjectTime;
+
+            return generator.GetNextHitObject(pumpHitObjectTime, beatmap, perHitObjectSettingsToUse);
         }
     }
 }

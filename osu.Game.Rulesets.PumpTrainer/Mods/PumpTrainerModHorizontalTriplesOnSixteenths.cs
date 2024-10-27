@@ -9,7 +9,7 @@ using osu.Game.Rulesets.PumpTrainer.Mods.ExcludeColumns;
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods
 {
-    public class PumpTrainerModHorizontalTriples : Mod, IApplicableToBeatmapConverter
+    public class PumpTrainerModHorizontalTriplesOnSixteenths : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
         public Bindable<double> HorizontalTripleFrequency { get; } = new BindableDouble(0.5)
@@ -20,10 +20,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "[Half-Dbl+] Horizontal Triples";
-        public override string Acronym => "HHH";
+        public override string Name => "[Half-Dbl+] Horiz-3's on 1/4s";
+        public override string Acronym => "3H";
         public override LocalisableString Description =>
-            "Three consecutive notes spanning three physical dance pad columns (not note columns) in a single direction.";
+            "Three consecutive notes spanning three physical columns in a single direction." +
+            "These are normally banned for rhythms 1/4 and faster.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
         public override Type[] IncompatibleMods => new Type[]
@@ -40,7 +41,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.BeatmapWideGeneratorSettings.HorizontalTripleFrequency = HorizontalTripleFrequency.Value;
+            pumpBeatmapConverter.GeneratorSettingsForSixteenthRhythms.HorizontalTripleFrequency = HorizontalTripleFrequency.Value;
         }
     }
 }
