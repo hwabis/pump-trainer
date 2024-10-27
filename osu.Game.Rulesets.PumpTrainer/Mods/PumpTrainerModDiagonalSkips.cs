@@ -22,7 +22,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
 
         public override string Name => "[P1Single+] Diagonal Skips";
         public override string Acronym => "DD";
-        public override LocalisableString Description => "Crossovers across a single panel, skipping over the center panel.\n";
+        public override LocalisableString Description => "Twists across a single panel that skip over the center panel.\n";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
         public override Type[] IncompatibleMods => new Type[]

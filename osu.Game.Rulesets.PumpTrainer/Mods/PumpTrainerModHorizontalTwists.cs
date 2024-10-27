@@ -9,7 +9,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
 {
     public class PumpTrainerModHorizontalTwists : Mod, IApplicableToBeatmapConverter
     {
-        [SettingSource("Frequency")]
+        [SettingSource("Regular Twist Frequency")]
         public Bindable<double> HorizontalTwistFrequency { get; } = new BindableDouble(0.5)
         {
             MinValue = 0.1,
@@ -31,9 +31,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         };
 
         public override string Name => "Horizontal Twists";
-        public override string Acronym => "H";
+        public override string Acronym => "TW";
         public override LocalisableString Description =>
-            "Horizontal crossovers involving a center panel.";
+            "Twists involving a center panel. Also enables other types of twists in mod customization.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
 
