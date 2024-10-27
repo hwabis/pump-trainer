@@ -5,15 +5,15 @@ This is a ruleset for [osu!](https://github.com/ppy/osu). It generates Pump It U
 The current the formula generates charts with:
 - No spins
 - No splits (consecutive notes have at most 1 panel horizontally between them)
-- osu! slider rhythm simplification: 1/6 and 1/8 buzz sliders are simplified to 1/4's, and long sliders are simplified (e.g. 3/4 sliders are treated as 1/2)
-- By default with no mods:
-  - No 90 degree twists in singles (e.g. DL --> DR --> UR) for 1/4 rhythms and faster
-  - No fast travels in doubles (e.g. P1C --> P1UR --> P2DL, e.g. P2DL --> P1UR --> P1UL) for 1/4 rhythms and faster
+- osu! slider rhythm simplification: 1/6 and 1/8 buzz sliders are treated as 1/4's, and long sliders are rounded down to the nearest 1/2 (e.g. 3/4 sliders are treated as 1/2)
+- For rhythms 1/4 and faster (overridable through mods):
+  - No 90 degree twists in singles (e.g. DL --> DR --> UR)
+  - No fast horizontal travels in doubles (e.g. P1C --> P1UR --> P2DL, P2DL --> P1UR --> P1UL)
 - Adjustable through mods:
-  - Regular twists (e.g. C, UL)
-  - Large twists (e.g. P2UL, P1C)
-  - Diagonal twists (e.g. DL, C, UR)
-  - Diagonal skips (e.g. UR, DL)
+  - Regular twists (e.g. C --> UL)
+  - Large twists (e.g. P2DL --> P1C)
+  - Diagonal twists (e.g. DL --> C --> UR)
+  - Diagonal skips (e.g. UR --> DL)
 
 All examples above start with the left foot. See [this page](https://www.piucenter.com/skill) for more background.
 (The terminology I'm using here and in the code don't match exactly to that page.)
