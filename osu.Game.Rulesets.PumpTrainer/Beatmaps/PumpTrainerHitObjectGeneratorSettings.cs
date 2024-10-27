@@ -34,10 +34,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         public double HorizontalTwistFrequency = 0;
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate a diagonal twist. Higher means more likely.
+        /// Determines whether to allow generating diagonal twists.
+        /// This requires horizontal twists to be on (greater than 0) to have any effect.
         /// Example starting left foot: DL --> C --> UR
         /// </summary>
-        public double DiagonalTwistFrequency = 0;
+        public bool AllowDiagonalTwists = false;
 
         /// <summary>
         /// 0 to 1 determining how frequently to generate a diagonal skip. Higher means more likely.

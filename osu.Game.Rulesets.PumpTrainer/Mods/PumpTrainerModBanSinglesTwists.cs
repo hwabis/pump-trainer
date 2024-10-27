@@ -30,7 +30,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             typeof(PumpTrainerModBanFarColumns),
             typeof(PumpTrainerModHorizontalTwists),
-            typeof(PumpTrainerModDiagonalTwists),
             typeof(PumpTrainerModCornersOnSixteenths),
             typeof(PumpTrainerModDiagonalSkips),
             typeof(PumpTrainerModHorizontalTriples),

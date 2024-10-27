@@ -24,6 +24,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Default = false,
         };
 
+        [SettingSource("[P1Single+] Diagonal Twists")]
+        public Bindable<bool> AllowDiagonalTwists { get; } = new BindableBool(false)
+        {
+            Default = false,
+        };
+
         public override string Name => "Horizontal Twists";
         public override string Acronym => "H";
         public override LocalisableString Description =>
@@ -40,6 +46,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             if (IncludeLargeTwists.Value)
             {
                 pumpBeatmapConverter.Settings.LargeTwistFrequency = HorizontalTwistFrequency.Value;
+            }
+
+            if (AllowDiagonalTwists.Value)
+            {
+                pumpBeatmapConverter.Settings.AllowDiagonalTwists = true;
             }
         }
     }

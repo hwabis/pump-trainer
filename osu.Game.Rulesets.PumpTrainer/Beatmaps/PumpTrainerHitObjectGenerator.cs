@@ -495,7 +495,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
 
             // Ban diagonal twists (single pad)
-            if (random.NextDouble() > Settings.DiagonalTwistFrequency)
+            if (!Settings.AllowDiagonalTwists)
             {
                 if (previousColumn == Column.P1C)
                 {
