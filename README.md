@@ -1,7 +1,22 @@
 ## What is this?
 
-This is a ruleset for [osu!](https://github.com/ppy/osu). It generates Pump It Up charts that are playable with two feet, from osu! beatmaps. That means no weird twists, spins, or splits are generated.
-So if you want to practice [WI-EX-DOC-VA D24](https://youtu.be/Q7lxEz3ibt0?t=156), this is not the place for you.
+This is a ruleset for [osu!](https://github.com/ppy/osu). It generates Pump It Up charts that are playable with two feet, from osu! beatmaps.
+
+The current the formula generates charts with:
+- No spins
+- No splits (nothing wider than notes being more than 1 panel horizontally apart)
+- osu! slider rhythm simplification: 1/6 and 1/8 buzz sliders are simplified to 1/4's, and long sliders are simplified (e.g. 3/4 sliders are treated as 1/2)
+- By default with no mods:
+  - No 90 degree twists in singles (e.g. DL --> DR --> UR) for 1/4 rhythms and faster
+  - No fast travels in doubles (e.g. P1C --> P1UR --> P2DL) for 1/4 rhythms and faster
+- Adjustable through mods:
+  - Regular twists (e.g. UL, C, UR)
+  - Large twists (e.g. P2UL, P1C)
+  - Diagonal twists (e.g. DL, C, UR)
+  - Diagonal skips (e.g. UR, DL)
+
+All examples above start with the left foot. See [this page](https://www.piucenter.com/skill) for more terminology.
+(The terms I'm using here and in the code don't match exactly to the terms that page.)
 
 ## How to install
 
@@ -19,7 +34,6 @@ Z C V N
 ```
 - However, I believe playing with your feet with Autoplay mod is more fun.
 - f3 and f4 in-game to change scroll speed. This is a keybind in osu! itself, not a ruleset keybind.
-- Experiment with all the mods to generate different patterns.
 
 ## Example converted beatmaps
 
