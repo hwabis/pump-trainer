@@ -3,6 +3,7 @@
 This is a ruleset for [osu!](https://github.com/ppy/osu). It generates Pump It Up charts that are playable with two feet, from osu! beatmaps.
 
 The current the formula generates charts with:
+- No double-steps
 - No spins
 - No splits (consecutive notes have at most 1 panel horizontally between them)
 - osu! slider rhythm simplification: 1/6 and 1/8 buzz sliders are treated as 1/4's, and long sliders are rounded down to the nearest 1/2 (e.g. 3/4 sliders are treated as 1/2)
