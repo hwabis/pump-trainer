@@ -18,6 +18,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
+        [SettingSource("[Half-Dbl+] Large Twists")]
+        public Bindable<bool> IncludeLargeTwists { get; } = new BindableBool(false)
+        {
+            Default = false,
+        };
+
         public override string Name => "Horizontal Twists";
         public override string Acronym => "H";
         public override LocalisableString Description =>
@@ -30,6 +36,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
             pumpBeatmapConverter.Settings.HorizontalTwistFrequency = HorizontalTwistFrequency.Value;
+
+            if (IncludeLargeTwists.Value)
+            {
+                pumpBeatmapConverter.Settings.LargeTwistFrequency = HorizontalTwistFrequency.Value;
+            }
         }
     }
 }

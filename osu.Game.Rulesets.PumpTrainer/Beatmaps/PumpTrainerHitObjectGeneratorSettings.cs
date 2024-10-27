@@ -58,6 +58,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// </summary>
         public double HorizontalTripleFrequency = 0;
 
+        /// <summary>
+        /// 0 to 1 determining how frequently to generate a large horizontal twist. Higher means more likely.
+        /// This kind of twist is very rare. Example charts are Uranium D24 and See D20 (those are actually the only charts I know of that have this pattern lol).
+        /// Example starting right foot: P1C --> P2UL
+        /// </summary>
+        public double LargeTwistFrequency = 0;
+
         public PumpTrainerHitObjectGeneratorSettings()
         {
         }

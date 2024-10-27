@@ -47,6 +47,15 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightDiagonalSkip = [];
 
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootLeftLargeTwist = new()
+        {
+            { Column.P2DL, [Column.P1C] },
+            { Column.P2UL, [Column.P1C] },
+            { Column.P2C, [Column.P1UR, Column.P1DR] },
+        };
+
+        private Dictionary<Column, List<Column>> nextColumnsPreviousFootRightLargeTwist = [];
+
         private Dictionary<Column, Column> horizontalFlips = new()
         {
             { Column.P1DL, Column.P2DR },
@@ -154,6 +163,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             possiblyAddHorizontalTwistsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
             possiblyAddDiagonalSkipsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
+            possiblyAddLargeHorizontalTwistsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
 
             // Easy mod bans
             possiblyBanSinglesTwists(candidateColumns, previousColumn, maximizeCandidateCount);
@@ -217,6 +227,39 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     if (nextColumnsPreviousFootRightDiagonalSkip.ContainsKey(previousColumn))
                     {
                         twistColumnsToAdd = nextColumnsPreviousFootRightDiagonalSkip[previousColumn];
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+                candidates.AddRange(twistColumnsToAdd);
+            }
+        }
+
+        private void possiblyAddLargeHorizontalTwistsToCandidates(List<Column> candidates, Column previousColumn, bool alwaysAdd)
+        {
+            if (random.NextDouble() < Settings.LargeTwistFrequency || alwaysAdd)
+            {
+                List<Column> twistColumnsToAdd;
+
+                if (previousFoot == Foot.Left)
+                {
+                    if (nextColumnsPreviousFootLeftLargeTwist.ContainsKey(previousColumn))
+                    {
+                        twistColumnsToAdd = nextColumnsPreviousFootLeftLargeTwist[previousColumn];
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    if (nextColumnsPreviousFootRightLargeTwist.ContainsKey(previousColumn))
+                    {
+                        twistColumnsToAdd = nextColumnsPreviousFootRightLargeTwist[previousColumn];
                     }
                     else
                     {
@@ -344,7 +387,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             Column previousColumn = hitObjectsSoFar[^1].Column;
             Column previousPreviousColumn = hitObjectsSoFar[^2].Column;
 
-            // Ban spins no matter what
+            // Ban spins no matter what (this covers large twist spins as well)
             if (previousFoot == Foot.Left)
             {
                 if (previousColumn == Column.P1C)
@@ -400,7 +443,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            // Ban large diagonal twists and large horizontal twists no matter what
+            // Ban large diagonal twists and large twists that end up not-twisted on the same row on the pads (D, C, or U), no matter what.
+            // Yes, we want to ban both of these regardless of which foot started.
+            // These are patterns are pretty much never seen in real charts (even in one with large twists),
+            // because one of the feet will always have to travel very far.
             if (previousColumn == Column.P1C)
             {
                 if (previousPreviousColumn == Column.P1DL)
@@ -657,6 +703,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 if (nextColumnsPreviousFootLeftDiagonalSkip.ContainsKey(flippedColumn))
                 {
                     nextColumnsPreviousFootRightDiagonalSkip[column] = nextColumnsPreviousFootLeftDiagonalSkip[flippedColumn].Select(n => horizontalFlips[n]).ToList();
+                }
+
+                if (nextColumnsPreviousFootLeftLargeTwist.ContainsKey(flippedColumn))
+                {
+                    nextColumnsPreviousFootRightLargeTwist[column] = nextColumnsPreviousFootLeftLargeTwist[flippedColumn].Select(n => horizontalFlips[n]).ToList();
                 }
             }
         }
