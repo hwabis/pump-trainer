@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using osu.Game.Beatmaps;
@@ -14,23 +13,20 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
-        public PumpTrainerHitObjectGeneratorSettings Settings => generator.Settings;
+        public PumpTrainerHitObjectGeneratorSettings BeatmapWideGeneratorSettings => generator.Settings;
         private PumpTrainerHitObjectGenerator generator = new();
 
-        /// <summary>
-        /// 0 to 1 determining how frequently to generate a corner pattern on 1/4 rhythms (aka sixteenth rhythms). Higher means more likely.
-        /// Corner patterns include 90 degree patterns and V shape patterns (see examples below).
-        /// (Corner patterns are usually banned on sixteenth rhythms.)
-        /// Examples:
-        /// Starting left: UL, UR, DR (and 7 other variations per singles panel) - 90 degrees across a single panel.
-        /// Starting left: UL, DR, UR (and 7 other variations per singles panel) - V shape across a single panel.
-        /// </summary>
-        public double CornersOnSixteenthRhythmsFrequency = 0;
+        // Initialized with values that minimize the per-(hit object) patterns
+        public PumpTrainerHitObjectGeneratorSettingsPerHitObject GeneratorSettingsForSixteenthRhythms = new()
+        {
+            CornersFrequency = 0,
+        };
+
+        // Don't modify this one. This uses the default field values
+        private static PumpTrainerHitObjectGeneratorSettingsPerHitObject generator_settings_for_non_sixteenth_rhythms = new();
 
         private double timeOfPreviousPumpHitObject = 0;
         private const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
-
-        private static Random random = new();
 
         public PumpTrainerBeatmapConverter(IBeatmap beatmap, Ruleset ruleset)
             : base(beatmap, ruleset)
@@ -41,7 +37,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         protected override IEnumerable<PumpTrainerHitObject> ConvertHitObject(HitObject original, IBeatmap beatmap, CancellationToken cancellationToken)
         {
-            if (Settings.AllowedColumns.Count <= 1)
+            if (BeatmapWideGeneratorSettings.AllowedColumns.Count <= 1)
             {
                 yield break;
             }
@@ -123,13 +119,17 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         {
             timeOfPreviousPumpHitObject = pumpHitObjectTime;
 
-            // Ban corner patterns if the hit object being generated is in a 1/4 (sixteenth note) rhythm, unless the mod overrides it.
             double lengthOfSixteenthRhythm = beatmap.ControlPointInfo.TimingPointAt(pumpHitObjectTime).BeatLength / 4;
-            bool banCornerPatterns =
-                pumpHitObjectTime - timeOfPreviousPumpHitObject <= lengthOfSixteenthRhythm + rounding_error
-                && random.NextDouble() > CornersOnSixteenthRhythmsFrequency;
 
-            return generator.GetNextHitObject(pumpHitObjectTime, beatmap, banCornerPatterns);
+            if (pumpHitObjectTime - timeOfPreviousPumpHitObject <= lengthOfSixteenthRhythm + rounding_error)
+            {
+                // The hit object being generated is in a 1/4 (sixteenth note) rhythm, so we need to use the individual hit object settings for sixteenth rhythms
+                return generator.GetNextHitObject(pumpHitObjectTime, beatmap, GeneratorSettingsForSixteenthRhythms);
+            }
+            else
+            {
+                return generator.GetNextHitObject(pumpHitObjectTime, beatmap, generator_settings_for_non_sixteenth_rhythms);
+            }
         }
     }
 }

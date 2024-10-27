@@ -93,8 +93,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         public PumpTrainerHitObjectGeneratorSettings Settings = new();
 
-        // Per-note setting
-        private bool banCornerPatterns;
+        // Updated for every newly generated note
+        private PumpTrainerHitObjectGeneratorSettingsPerHitObject perHitObjectsettings;
 
         public PumpTrainerHitObjectGenerator()
         {
@@ -107,14 +107,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         /// </summary>
         /// <param name="startTime">The start time of the next hitobject to generate.</param>
         /// <param name="beatmap">The source beatmap we're generating objects based off. Typically an osu! beatmap.</param>
-        /// <param name="banCornerPatterns">
-        /// Whether to ban corner patterns. See <see cref="PumpTrainerBeatmapConverter.CornersOnSixteenthRhythmsFrequency"/> for the definition of a corner pattern.
-        /// It's an arg here instead of in PumpTrainerHitObjectGeneratorSettings because we want to set it per-note instead of on the whole beatmap.
-        /// </param>
+        /// <param name="perHitObjectsettings">The settings to apply for the generated hit object.</param>
         /// <returns></returns>
-        public PumpTrainerHitObject GetNextHitObject(double startTime, IBeatmap beatmap, bool banCornerPatterns)
+        public PumpTrainerHitObject GetNextHitObject(double startTime, IBeatmap beatmap, PumpTrainerHitObjectGeneratorSettingsPerHitObject perHitObjectsettings)
         {
-            this.banCornerPatterns = banCornerPatterns;
+            this.perHitObjectsettings = perHitObjectsettings;
 
             // Always start on the left foot as the first note (for now?)
             Foot nextFoot = previousFoot == null || previousFoot == Foot.Right ? Foot.Left : Foot.Right;
@@ -579,7 +576,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 candidateColumns.RemoveAll(columnsToBan.Contains);
             }
 
-            if (banCornerPatterns)
+            if (random.NextDouble() > perHitObjectsettings.CornersFrequency)
             {
                 // Ban 90 degree patterns
                 if (previousPreviousColumn == Column.P1UL && (previousColumn == Column.P1UR || previousColumn == Column.P1DL))

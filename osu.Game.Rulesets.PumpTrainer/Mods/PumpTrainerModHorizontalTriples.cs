@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.Settings.HorizontalTripleFrequency = HorizontalTripleFrequency.Value;
+            pumpBeatmapConverter.BeatmapWideGeneratorSettings.HorizontalTripleFrequency = HorizontalTripleFrequency.Value;
         }
     }
 }

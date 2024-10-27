@@ -45,7 +45,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.Settings.SinglesTwistFrequency = SinglesTwistFrequency.Value;
+            pumpBeatmapConverter.BeatmapWideGeneratorSettings.SinglesTwistFrequency = SinglesTwistFrequency.Value;
         }
     }
 }

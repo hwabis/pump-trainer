@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.CornersOnSixteenthRhythmsFrequency = CornersOnSixteenthsFrequency.Value;
+            pumpBeatmapConverter.GeneratorSettingsForSixteenthRhythms.CornersFrequency = CornersOnSixteenthsFrequency.Value;
         }
     }
 }
