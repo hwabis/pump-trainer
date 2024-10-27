@@ -4,7 +4,7 @@ This is a ruleset for [osu!](https://github.com/ppy/osu). It generates Pump It U
 
 The current the formula generates charts with:
 - No spins
-- No splits (nothing wider than notes being more than 1 panel horizontally apart)
+- No splits (consecutive notes have at most 1 panel horizontally between them)
 - osu! slider rhythm simplification: 1/6 and 1/8 buzz sliders are simplified to 1/4's, and long sliders are simplified (e.g. 3/4 sliders are treated as 1/2)
 - By default with no mods:
   - No 90 degree twists in singles (e.g. DL --> DR --> UR) for 1/4 rhythms and faster
@@ -15,8 +15,8 @@ The current the formula generates charts with:
   - Diagonal twists (e.g. DL, C, UR)
   - Diagonal skips (e.g. UR, DL)
 
-All examples above start with the left foot. See [this page](https://www.piucenter.com/skill) for more terminology.
-(The terms I'm using here and in the code don't match exactly to the terms that page.)
+All examples above start with the left foot. See [this page](https://www.piucenter.com/skill) for more background.
+(The terminology I'm using here and in the code don't match exactly to that page.)
 
 ## How to install
 
@@ -37,16 +37,16 @@ Z C V N
 
 ## Example converted beatmaps
 
-Converted map: https://osu.ppy.sh/beatmapsets/298245#osu/679019
+Converted map: https://osu.ppy.sh/beatmapsets/2010589#osu/4183614
 
-### Single - no twists (would be ~S15)
+### Single
 
-https://github.com/user-attachments/assets/91fb4707-e803-4fdc-be9d-0374acd1bb64
+https://github.com/user-attachments/assets/443fd2df-9c3f-4c19-bf72-c9ba25ae3e57
 
-### Full-double - no twists (would be ~D16)
+### Half-double
 
-https://github.com/user-attachments/assets/8a4add67-482d-43ce-8a82-964e3aa20b54
+https://github.com/user-attachments/assets/87712408-7cc8-42e1-b919-8e6acae75598
 
-### Full-double - with twists (would be ~D17)
+### Double with regular twists
 
-https://github.com/user-attachments/assets/5226fec9-6ad1-4382-99e5-9381a1fab7b0
+https://github.com/user-attachments/assets/4037fae3-c224-4abb-92b9-d1bdeea1d639
