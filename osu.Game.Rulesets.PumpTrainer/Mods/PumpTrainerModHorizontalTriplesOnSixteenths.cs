@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "[Half-Dbl+] Horiz-3's on 1/4s";
         public override string Acronym => "3H";
         public override LocalisableString Description =>
-            "Three consecutive notes spanning three physical columns in a single direction." +
+            "Three consecutive notes spanning three physical columns in a single direction.\n" +
             "These are normally banned for rhythms 1/4 and faster.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
