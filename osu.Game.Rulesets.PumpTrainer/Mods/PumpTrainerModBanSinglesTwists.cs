@@ -20,10 +20,10 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             Precision = 0.1,
         };
 
-        public override string Name => "[P1Single+] Ban Simple Twists";
-        public override string Acronym => "S";
+        public override string Name => "[P1Single+] Beginner";
+        public override string Acronym => "B";
         public override LocalisableString Description =>
-            "Bans the right foot hitting the left pads and vice versa, in the context of a single pad. (Horizontal triples is forced to be on.)";
+            "Bans the right foot hitting the left pads and vice versa, in the context of a single pad.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
         public override Type[] IncompatibleMods => new Type[]
@@ -31,6 +31,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
             typeof(PumpTrainerModBanFarColumns),
             typeof(PumpTrainerModHorizontalTwists),
             typeof(PumpTrainerModDiagonalTwists),
+            typeof(PumpTrainerModCornersOnSixteenths),
             typeof(PumpTrainerModDiagonalSkips),
             typeof(PumpTrainerModHorizontalTriples),
 
