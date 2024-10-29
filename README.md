@@ -51,4 +51,6 @@ https://github.com/user-attachments/assets/87712408-7cc8-42e1-b919-8e6acae75598
 
 ### Double with regular twists
 
-https://github.com/user-attachments/assets/4037fae3-c224-4abb-92b9-d1bdeea1d639
+Converted map: https://osu.ppy.sh/beatmapsets/600303#osu/1310291
+
+https://github.com/user-attachments/assets/30c1f1d2-d591-476f-acda-669ef21f94d8
