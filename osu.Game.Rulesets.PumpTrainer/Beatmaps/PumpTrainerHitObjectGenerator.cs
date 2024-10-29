@@ -491,6 +491,32 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
+            // Ban large horizontal triples no matter what. This is where all three columns go in one direction, and they are not adjacent to each other.
+            {
+                int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
+                int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];
+
+                List<Column> columnsToBan = [];
+
+                // If the two previous columns are adjacent, then we have an extra column of leniency for the column of the next hit object
+                // (so that we don't mistakenly ban a regular horizontal triple, where all the columns are adjacent).
+                // If the two previous columns already have a gap between them, then we can't be lenient and we must ban everything going in that direction.
+                int banColumnLeniency = Math.Abs(previousPhysicalColumn - previousPreviousPhysicalColumn) >= 2 ? 0 : 1;
+
+                if (previousPhysicalColumn > previousPreviousPhysicalColumn)
+                {
+                    // Going right! Ban everything to the right
+                    columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value > previousPhysicalColumn + banColumnLeniency).Select(entry => entry.Key).ToList();
+                }
+                else if (previousPhysicalColumn < previousPreviousPhysicalColumn)
+                {
+                    // Going left! Ban everything to the left
+                    columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value < previousPhysicalColumn - banColumnLeniency).Select(entry => entry.Key).ToList();
+                }
+
+                candidateColumns.RemoveAll(columnsToBan.Contains);
+            }
+
             // Ban diagonal twists (single pad)
             if (!Settings.AllowDiagonalTwists)
             {
@@ -534,7 +560,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            // Ban horizontal triples
+            // Ban horizontal triples (horizontally adjacent to each other)
             // We can't ban horizontal triples if the singles twists mod is on (so that we don't get "stuck" in a pattern)
             if (random.NextDouble() > perHitObjectsettings.HorizontalTripleFrequency && Settings.SinglesTwistFrequency == 1)
             {
@@ -550,12 +576,12 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
                 else if (previousPhysicalColumn < previousPreviousPhysicalColumn)
                 {
-                    // Going left! Ban everything to the keft
+                    // Going left! Ban everything to the left
                     columnsToBan = columnToPhysicalColumn.Where(entry => entry.Value < previousPhysicalColumn).Select(entry => entry.Key).ToList();
                 }
 
-                // Don't ban columns that are in the exception case (all three notes are on the same singles pad).
-                // Just manually check all four possibilities for this exception
+                // Don't ban columns where all three notes are on the same singles pad. This would interfere with horizontal twists.
+                // Just manually check all four possibilities.
                 if (previousPhysicalColumn == 1 && previousPreviousPhysicalColumn == 0)
                 {
                     columnsToBan.RemoveAll(column => columnToPhysicalColumn[column] == 2);
@@ -576,6 +602,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 candidateColumns.RemoveAll(columnsToBan.Contains);
             }
 
+            // Ban corner patterns
             if (random.NextDouble() > perHitObjectsettings.CornersFrequency)
             {
                 // Ban 90 degree patterns

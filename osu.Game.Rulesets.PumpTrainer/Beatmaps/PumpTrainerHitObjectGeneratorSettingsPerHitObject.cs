@@ -16,13 +16,13 @@
         public double CornersFrequency = 1;
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate 3 adjacent notes that span unique physical columns,
-        /// go in one direction (i.e. only left, or only right), and are not all on the same single pad. Higher means more likely.
+        /// 0 to 1 determining how frequently to generate 3 horizontally adjacent notes that go in one direction (i.e. only left, or only right),
+        /// and are not all on the same single pad. Higher means more likely.
         /// Example: P1C --> P1DR --> P2UL
-        /// Example: P2UL --> P1DR --> P1C
-        /// NON-example: P1C --> P2UL --> P2DL (because the physical columns are not unique)
+        /// NON-example: P1C --> P2UL --> P2DL (because the notes do not go in one direction)
         /// NON-example: P1C --> P2UL --> P1DR (because the notes do not go in one direction)
         /// NON-example: P1UL --> P1C --> P1UR (because the notes only span a single pad)
+        /// NON-example: P1C --> P1UR --> P2C (because the notes are not horizontally adjacent. This case is actually always banned, no matter what mods are on.)
         /// </summary>
         public double HorizontalTripleFrequency = 1;
 
