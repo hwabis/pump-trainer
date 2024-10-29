@@ -440,57 +440,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
             }
 
-            // Ban large diagonal twists and large twists that end up not-twisted on the same row on the pads (D, C, or U), no matter what.
-            // Yes, we want to ban both of these regardless of which foot started.
-            // These are patterns are pretty much never seen in real charts (even in one with large twists),
-            // because one of the feet will always have to travel very far.
-            if (previousColumn == Column.P1C)
-            {
-                if (previousPreviousColumn == Column.P1DL)
-                {
-                    candidateColumns.Remove(Column.P2UL);
-                    candidateColumns.Remove(Column.P2DL);
-                }
-                else if (previousPreviousColumn == Column.P1UL)
-                {
-                    candidateColumns.Remove(Column.P2DL);
-                    candidateColumns.Remove(Column.P2UL);
-                }
-                else if (previousPreviousColumn == Column.P2DL)
-                {
-                    candidateColumns.Remove(Column.P1UL);
-                    candidateColumns.Remove(Column.P1DL);
-                }
-                else if (previousPreviousColumn == Column.P2UL)
-                {
-                    candidateColumns.Remove(Column.P1DL);
-                    candidateColumns.Remove(Column.P1UL);
-                }
-            }
-            else if (previousColumn == Column.P2C)
-            {
-                if (previousPreviousColumn == Column.P2DR)
-                {
-                    candidateColumns.Remove(Column.P1UR);
-                    candidateColumns.Remove(Column.P1DR);
-                }
-                else if (previousPreviousColumn == Column.P2UR)
-                {
-                    candidateColumns.Remove(Column.P1DR);
-                    candidateColumns.Remove(Column.P1UR);
-                }
-                else if (previousPreviousColumn == Column.P1DR)
-                {
-                    candidateColumns.Remove(Column.P2UR);
-                    candidateColumns.Remove(Column.P2DR);
-                }
-                else if (previousPreviousColumn == Column.P1UR)
-                {
-                    candidateColumns.Remove(Column.P2DR);
-                    candidateColumns.Remove(Column.P2UR);
-                }
-            }
-
             // Ban large horizontal triples no matter what. This is where all three columns go in one direction, and they are not adjacent to each other.
             {
                 int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
