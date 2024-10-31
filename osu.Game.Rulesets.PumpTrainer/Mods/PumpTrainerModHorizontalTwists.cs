@@ -10,11 +10,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
     public class PumpTrainerModHorizontalTwists : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Regular Twist Frequency")]
-        public Bindable<double> HorizontalTwistFrequency { get; } = new BindableDouble(0.5)
+        public Bindable<double> HorizontalTwistFrequency { get; } = new BindableDouble(0.8)
         {
             MinValue = 0.1,
             MaxValue = 1.0,
-            Default = 0.5,
+            Default = 0.8,
             Precision = 0.1,
         };
 
