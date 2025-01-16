@@ -9,15 +9,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             [Column.P1DL, Column.P1UL, Column.P1C, Column.P1UR, Column.P1DR, Column.P2DL, Column.P2UL, Column.P2C, Column.P2UR, Column.P2DR];
 
         /// <summary>
-        /// 0 to 1 determining how frequently to generate a singles "twist" that's not a horizontal twist. Higher means more likely.
-        /// Example starting left foot: C --> UR --> DR
-        /// Example starting left foot: C --> DR --> UR
-        /// NON-example starting left foot: UL --> C --> UR (this is a horizontal twist)
-        /// tl;dr When this is 0, you get something resembling the very ending of Flavor Step D19.
-        /// </summary>
-        public double SinglesTwistFrequency = 1;
-
-        /// <summary>
         /// 0 to 1 determining how frequently to generate two notes that are in adjacent columns on the physical dance pad.
         /// One of the notes must be a center panel (aka they do not span across a center panel, aka they must be in the half-doubles region).
         /// Higher means more likely.

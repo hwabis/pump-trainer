@@ -163,7 +163,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             possiblyAddLargeHorizontalTwistsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
 
             // Easy mod bans
-            possiblyBanSinglesTwists(candidateColumns, previousColumn, maximizeCandidateCount);
             possiblyBanFarColumns(candidateColumns, previousColumn, maximizeCandidateCount);
 
             return candidateColumns;
@@ -265,54 +264,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 }
 
                 candidates.AddRange(twistColumnsToAdd);
-            }
-        }
-
-        private void possiblyBanSinglesTwists(List<Column> candidates, Column previousColumn, bool neverBan)
-        {
-            if (neverBan)
-            {
-                return;
-            }
-
-            if (random.NextDouble() > Settings.SinglesTwistFrequency)
-            {
-                if (previousFoot == Foot.Left)
-                {
-                    switch (previousColumn)
-                    {
-                        case Column.P1DL:
-                            candidates.Remove(Column.P1UL);
-                            return;
-                        case Column.P1UL:
-                            candidates.Remove(Column.P1DL);
-                            return;
-                        case Column.P2DL:
-                            candidates.Remove(Column.P2UL);
-                            return;
-                        case Column.P2UL:
-                            candidates.Remove(Column.P2DL);
-                            return;
-                    }
-                }
-                else
-                {
-                    switch (previousColumn)
-                    {
-                        case Column.P1DR:
-                            candidates.Remove(Column.P1UR);
-                            return;
-                        case Column.P1UR:
-                            candidates.Remove(Column.P1DR);
-                            return;
-                        case Column.P2DR:
-                            candidates.Remove(Column.P2UR);
-                            return;
-                        case Column.P2UR:
-                            candidates.Remove(Column.P2DR);
-                            return;
-                    }
-                }
             }
         }
 
@@ -510,8 +461,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
 
             // Ban horizontal triples (horizontally adjacent to each other)
-            // We can't ban horizontal triples if the singles twists mod is on (so that we don't get "stuck" in a pattern)
-            if (random.NextDouble() > perHitObjectsettings.HorizontalTripleFrequency && Settings.SinglesTwistFrequency == 1)
+            if (random.NextDouble() > perHitObjectsettings.HorizontalTripleFrequency)
             {
                 int previousPhysicalColumn = columnToPhysicalColumn[previousColumn];
                 int previousPreviousPhysicalColumn = columnToPhysicalColumn[previousPreviousColumn];
