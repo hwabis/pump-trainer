@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Name => "[P1Single+] Corners on 1/4s";
         public override string Acronym => "CO";
         public override LocalisableString Description =>
-            "90-degree and V-twists across a single panel.\n" +
+            "90-degree and V-twists across a single pad.\n" +
             "These are normally banned for rhythms 1/4 and faster.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyIncrease;
