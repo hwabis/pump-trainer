@@ -1,6 +1,7 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using osu.Game.Beatmaps;
@@ -22,9 +23,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             CornersFrequency = 0,
             HorizontalTripleFrequency = 0,
         };
-
-        // Don't modify this one. This uses the default field values
-        private static PumpTrainerHitObjectGeneratorSettingsPerHitObject generator_settings_for_non_sixteenth_rhythms = new();
 
         private double timeOfPreviousPumpHitObject = 0;
         private const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
@@ -54,7 +52,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 double durationBetweenHitObjects = (hasRepeats.EndTime - original.StartTime) / hitObjectsToReturnAfterFirst;
 
                 TimingControlPoint currentTimingPoint = beatmap.ControlPointInfo.TimingPointAt(original.StartTime);
-                const double rounding_error = 5; // Use this rounding error "generously" for '<=' and '>=', and "not generously" for '<' and '>'
 
                 if (hitObjectsToReturnAfterFirst > 1)
                 {
@@ -122,7 +119,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             PumpTrainerHitObjectGeneratorSettingsPerHitObject perHitObjectSettingsToUse =
                 pumpHitObjectTime - timeOfPreviousPumpHitObject <= lengthOfSixteenthRhythm + rounding_error ?
-                GeneratorSettingsForSixteenthRhythms : generator_settings_for_non_sixteenth_rhythms;
+                GeneratorSettingsForSixteenthRhythms : new();
 
             timeOfPreviousPumpHitObject = pumpHitObjectTime;
 
