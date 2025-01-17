@@ -64,7 +64,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
             switch (state)
             {
                 case ArmedState.Hit:
-                    this.FadeOut().Expire(); // todo i guess
+                    this.FadeOut().Expire();
                     break;
 
                 case ArmedState.Miss:

@@ -97,6 +97,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         private PumpTrainerHitObjectGeneratorSettingsPerHitObject perHitObjectsettings;
 
         private int fullDoublesEdgeStreak = 0;
+        private int p1SinglesEdgeStreak = 0;
 
         public PumpTrainerHitObjectGenerator()
         {
@@ -152,7 +153,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left);
             }
 
-            return getRandomCandidateColumn(candidateColumns);
+            return getRandomCandidateColumnWeighted(candidateColumns);
         }
 
         private List<Column> getCandidateColumns(Foot nextFoot, Column previousColumn, bool maximizeCandidateCount)
@@ -576,7 +577,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private Column getRandomCandidateColumn(List<Column> candidateColumns)
+        private Column getRandomCandidateColumnWeighted(List<Column> candidateColumns)
         {
             if (candidateColumns.Count == 0)
             {
@@ -604,12 +605,25 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                     }
                 }
 
-                // If full-doubles, increase the likelihood of the half-doubles area,
-                // especially if there's an edge streak going on
+                // If full-doubles, decrease the likelihood of a panel on the same column as the previous if on the edge
                 if (Settings.AllowedColumns.Count == 10 &&
-                    columnToPhysicalColumn[candidateColumn] >= 1 && columnToPhysicalColumn[candidateColumn] <= 4)
+                    fullDoublesEdgeStreak > 0 &&
+                    previousColumn != null &&
+                    columnToPhysicalColumn[candidateColumn] != columnToPhysicalColumn[previousColumn.Value])
                 {
                     for (int i = 0; i < 4 * fullDoublesEdgeStreak; i++)
+                    {
+                        candidateColumnsWeighted.Add(candidateColumn);
+                    }
+                }
+
+                // Also apply for singles
+                if (Settings.AllowedColumns.SequenceEqual([Column.P1DL, Column.P1UL, Column.P1C, Column.P1UR, Column.P1DR]) &&
+                    p1SinglesEdgeStreak > 0 &&
+                    previousColumn != null &&
+                    columnToPhysicalColumn[candidateColumn] != columnToPhysicalColumn[previousColumn.Value])
+                {
+                    for (int i = 0; i < 4 * p1SinglesEdgeStreak; i++)
                     {
                         candidateColumnsWeighted.Add(candidateColumn);
                     }
@@ -618,8 +632,13 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             Column selectedColumn = candidateColumnsWeighted[random.Next(candidateColumnsWeighted.Count)];
 
-            fullDoublesEdgeStreak = columnToPhysicalColumn[selectedColumn] == 0 || columnToPhysicalColumn[selectedColumn] == 5 ?
+            fullDoublesEdgeStreak =
+                columnToPhysicalColumn[selectedColumn] == 0 || columnToPhysicalColumn[selectedColumn] == 5  ?
                 fullDoublesEdgeStreak + 1 : 0;
+
+            p1SinglesEdgeStreak =
+                columnToPhysicalColumn[selectedColumn] == 0 || columnToPhysicalColumn[selectedColumn] == 2 ?
+                p1SinglesEdgeStreak + 1 : 0;
 
             return selectedColumn;
         }
