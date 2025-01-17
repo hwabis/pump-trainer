@@ -96,6 +96,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
         // Updated for every newly generated note
         private PumpTrainerHitObjectGeneratorSettingsPerHitObject perHitObjectsettings;
 
+        private int fullDoublesEdgeStreak = 0;
+
         public PumpTrainerHitObjectGenerator()
         {
             initializeFootRightDictionaries();
@@ -150,7 +152,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 banColumnsCausingBannedPatterns(candidateColumns, nextFoot == Foot.Left ? Foot.Right : Foot.Left);
             }
 
-            return getRandomCandidateColumn(candidateColumns, 4 /* magic number to reduce likeihood of trills */);
+            return getRandomCandidateColumn(candidateColumns);
         }
 
         private List<Column> getCandidateColumns(Foot nextFoot, Column previousColumn, bool maximizeCandidateCount)
@@ -574,7 +576,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private Column getRandomCandidateColumn(List<Column> candidateColumns, int nonRepeatExtraWeight)
+        private Column getRandomCandidateColumn(List<Column> candidateColumns)
         {
             if (candidateColumns.Count == 0)
             {
@@ -586,8 +588,6 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
                 return candidateColumns[random.Next(candidateColumns.Count)];
             }
 
-            // Reduce the likelihood of trills using the non-repeat weight
-
             Column previousPreviousColumn = hitObjectsSoFar[^2].Column;
             List<Column> candidateColumnsWeighted = [];
 
@@ -595,16 +595,33 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             {
                 candidateColumnsWeighted.Add(candidateColumn);
 
+                // Reduce the likelihood of trills
                 if (candidateColumn != previousPreviousColumn)
                 {
-                    for (int i = 0; i < nonRepeatExtraWeight; i++)
+                    for (int i = 0; i < 4; i++)
+                    {
+                        candidateColumnsWeighted.Add(candidateColumn);
+                    }
+                }
+
+                // If full-doubles, increase the likelihood of the half-doubles area,
+                // especially if there's an edge streak going on
+                if (Settings.AllowedColumns.Count == 10 &&
+                    columnToPhysicalColumn[candidateColumn] >= 1 && columnToPhysicalColumn[candidateColumn] <= 4)
+                {
+                    for (int i = 0; i < 4 * fullDoublesEdgeStreak; i++)
                     {
                         candidateColumnsWeighted.Add(candidateColumn);
                     }
                 }
             }
 
-            return candidateColumnsWeighted[random.Next(candidateColumnsWeighted.Count)];
+            Column selectedColumn = candidateColumnsWeighted[random.Next(candidateColumnsWeighted.Count)];
+
+            fullDoublesEdgeStreak = columnToPhysicalColumn[selectedColumn] == 0 || columnToPhysicalColumn[selectedColumn] == 5 ?
+                fullDoublesEdgeStreak + 1 : 0;
+
+            return selectedColumn;
         }
 
         private void initializeFootRightDictionaries()
