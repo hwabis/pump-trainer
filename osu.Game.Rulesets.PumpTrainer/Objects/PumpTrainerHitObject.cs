@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Linq;
 using System.Text;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
@@ -59,7 +58,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
                 Origin = Anchor.TopCentre,
                 Anchor = Anchor.TopCentre,
                 Texture = textures.Get(textureString.ToString()),
+                // In PIU, there is a slight overlap between hitobjects that are directly next to each other
+                // so bloat the sprite by a little
+                Scale = new(1.08f),
             };
+
 
             switch (Column)
             {
@@ -67,7 +70,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects
                 case Column.P1DR:
                 case Column.P2UR:
                 case Column.P2DR:
-                    sprite.Scale = new(-1, 1);
+                    sprite.Scale = new(-sprite.Scale.X, sprite.Scale.Y);
                     break;
             }
 

@@ -15,7 +15,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Objects.Drawables
 {
     public partial class DrawablePumpTrainerHitObject : DrawableHitObject<PumpTrainerHitObject>, IKeyBindingHandler<PumpTrainerAction>
     {
-        public const int WIDTH = 85;
+        public const int WIDTH = 80;
 
         private DrawableTopRowHitObject correspondingTopRowHitObject;
 
