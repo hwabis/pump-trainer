@@ -145,8 +145,8 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             if (candidateColumns.Count == 0)
             {
                 // We messed up. Do the whole thing again but this time, allow all twists.
-                // There's probably a certain combination of mods that can break beatmap generation but I'm too lazy to figure those out
-                // since I don't think anybody would want to play with those weird combinations anyway.
+                // todo There are many combination of mods that can break beatmap generation
+                // particularly when you have an "island" of included columns
 
                 candidateColumns = getCandidateColumns(nextFoot, previousColumn, true);
                 includeOnlyAllowedColumns(candidateColumns);
@@ -156,17 +156,17 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             return getRandomCandidateColumnWeighted(candidateColumns);
         }
 
-        private List<Column> getCandidateColumns(Foot nextFoot, Column previousColumn, bool maximizeCandidateCount)
+        private List<Column> getCandidateColumns(Foot nextFoot, Column previousColumn, bool guaranteeTwistCandidates)
         {
             List<Column> candidateColumns = (nextFoot == Foot.Left ?
                 nextColumnsPreviousFootRight[previousColumn] : nextColumnsPreviousFootLeft[previousColumn]).ToList();
 
-            possiblyAddHorizontalTwistsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
-            possiblyAddDiagonalSkipsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
-            possiblyAddLargeHorizontalTwistsToCandidates(candidateColumns, previousColumn, maximizeCandidateCount);
+            possiblyAddHorizontalTwistsToCandidates(candidateColumns, previousColumn, guaranteeTwistCandidates);
+            possiblyAddDiagonalSkipsToCandidates(candidateColumns, previousColumn);
+            possiblyAddLargeHorizontalTwistsToCandidates(candidateColumns, previousColumn);
 
             // Easy mod bans
-            possiblyBanFarColumns(candidateColumns, previousColumn, maximizeCandidateCount);
+            possiblyBanFarColumns(candidateColumns, previousColumn, guaranteeTwistCandidates);
 
             return candidateColumns;
         }
@@ -204,9 +204,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates, Column previousColumn, bool alwaysAdd)
+        private void possiblyAddDiagonalSkipsToCandidates(List<Column> candidates, Column previousColumn)
         {
-            if (random.NextDouble() < Settings.DiagonalSkipFrequency || alwaysAdd)
+            if (random.NextDouble() < Settings.DiagonalSkipFrequency)
             {
                 List<Column> twistColumnsToAdd;
 
@@ -237,9 +237,9 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             }
         }
 
-        private void possiblyAddLargeHorizontalTwistsToCandidates(List<Column> candidates, Column previousColumn, bool alwaysAdd)
+        private void possiblyAddLargeHorizontalTwistsToCandidates(List<Column> candidates, Column previousColumn)
         {
-            if (random.NextDouble() < Settings.LargeTwistFrequency || alwaysAdd)
+            if (random.NextDouble() < Settings.LargeTwistFrequency)
             {
                 List<Column> twistColumnsToAdd;
 
