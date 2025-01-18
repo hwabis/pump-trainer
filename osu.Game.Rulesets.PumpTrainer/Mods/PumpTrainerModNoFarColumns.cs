@@ -9,21 +9,21 @@ using System;
 
 namespace osu.Game.Rulesets.PumpTrainer.Mods
 {
-    public class PumpTrainerModBanFarColumns : Mod, IApplicableToBeatmapConverter
+    public class PumpTrainerModNoFarColumns : Mod, IApplicableToBeatmapConverter
     {
         [SettingSource("Frequency")]
-        public Bindable<double> FarColumnsFrequency { get; } = new BindableDouble(0)
+        public Bindable<double> FarColumnsFrequency { get; } = new BindableDouble(0.5)
         {
             MinValue = 0,
             MaxValue = 0.9,
-            Default = 0,
+            Default = 0.5,
             Precision = 0.1,
         };
 
-        public override string Name => "[Half-Dbl+] Ban Far Columns";
+        public override string Name => "[Half-Dbl+] No Far Columns";
         public override string Acronym => "D";
         public override LocalisableString Description =>
-            "Bans two consecutive notes in the half-doubles region that are not in physically adjacent columns.";
+            "Reduces the frequency of two physically non-adjacent consecutive notes in the half-doubles region.";
         public override double ScoreMultiplier => 1;
         public override ModType Type => ModType.DifficultyReduction;
         public override Type[] IncompatibleMods => new Type[]

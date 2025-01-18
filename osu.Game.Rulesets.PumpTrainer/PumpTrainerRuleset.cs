@@ -36,7 +36,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                 case ModType.DifficultyReduction:
                     return new Mod[]
                     {
-                        new PumpTrainerModBanFarColumns(),
+                        new PumpTrainerModNoFarColumns(),
                         new PumpTrainerModHalfTime(),
                     };
 
