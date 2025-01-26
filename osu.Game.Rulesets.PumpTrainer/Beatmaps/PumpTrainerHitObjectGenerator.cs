@@ -84,7 +84,11 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             { Column.P2DR, 5 },
         }.ToImmutableDictionary();
 
-        private static Random random = new();
+        public int Seed
+        {
+            set => random = new(value);
+        }
+        private Random random = new();
 
         private List<PumpTrainerHitObject> hitObjectsSoFar = [];
 
@@ -633,7 +637,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
             Column selectedColumn = candidateColumnsWeighted[random.Next(candidateColumnsWeighted.Count)];
 
             fullDoublesEdgeStreak =
-                columnToPhysicalColumn[selectedColumn] == 0 || columnToPhysicalColumn[selectedColumn] == 5  ?
+                columnToPhysicalColumn[selectedColumn] == 0 || columnToPhysicalColumn[selectedColumn] == 5 ?
                 fullDoublesEdgeStreak + 1 : 0;
 
             p1SinglesEdgeStreak =

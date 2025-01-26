@@ -38,6 +38,7 @@ namespace osu.Game.Rulesets.PumpTrainer
                     {
                         new PumpTrainerModNoFarColumns(),
                         new PumpTrainerModHalfTime(),
+                        new PumpTrainerModSeeded(),
                     };
 
                 case ModType.DifficultyIncrease:
