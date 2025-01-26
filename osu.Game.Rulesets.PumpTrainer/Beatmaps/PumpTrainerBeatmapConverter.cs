@@ -13,8 +13,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 {
     public class PumpTrainerBeatmapConverter : BeatmapConverter<PumpTrainerHitObject>
     {
-        public PumpTrainerHitObjectGeneratorSettings BeatmapWideGeneratorSettings => generator.Settings;
-        private PumpTrainerHitObjectGenerator generator = new();
+        public PumpTrainerHitObjectGenerator HitObjectGenerator = new();
 
         // Initialized with values that minimize the per-(hit object) patterns
         public PumpTrainerHitObjectGeneratorSettingsPerHitObject GeneratorSettingsForSixteenthRhythms = new()
@@ -35,7 +34,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
         protected override IEnumerable<PumpTrainerHitObject> ConvertHitObject(HitObject original, IBeatmap beatmap, CancellationToken cancellationToken)
         {
-            if (BeatmapWideGeneratorSettings.AllowedColumns.Count <= 1)
+            if (HitObjectGenerator.Settings.AllowedColumns.Count <= 1)
             {
                 yield break;
             }
@@ -122,7 +121,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Beatmaps
 
             timeOfPreviousPumpHitObject = pumpHitObjectTime;
 
-            return generator.GetNextHitObject(pumpHitObjectTime, beatmap, perHitObjectSettingsToUse);
+            return HitObjectGenerator.GetNextHitObject(pumpHitObjectTime, beatmap, perHitObjectSettingsToUse);
         }
     }
 }

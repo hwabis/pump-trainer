@@ -41,16 +41,16 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.BeatmapWideGeneratorSettings.HorizontalTwistFrequency = HorizontalTwistFrequency.Value;
+            pumpBeatmapConverter.HitObjectGenerator.Settings.HorizontalTwistFrequency = HorizontalTwistFrequency.Value;
 
             if (IncludeLargeTwists.Value)
             {
-                pumpBeatmapConverter.BeatmapWideGeneratorSettings.LargeTwistFrequency = HorizontalTwistFrequency.Value;
+                pumpBeatmapConverter.HitObjectGenerator.Settings.LargeTwistFrequency = HorizontalTwistFrequency.Value;
             }
 
             if (AllowDiagonalTwists.Value)
             {
-                pumpBeatmapConverter.BeatmapWideGeneratorSettings.AllowDiagonalTwists = true;
+                pumpBeatmapConverter.HitObjectGenerator.Settings.AllowDiagonalTwists = true;
             }
         }
     }

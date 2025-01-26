@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.BeatmapWideGeneratorSettings.DiagonalSkipFrequency = DiagonalSkipFrequency.Value;
+            pumpBeatmapConverter.HitObjectGenerator.Settings.DiagonalSkipFrequency = DiagonalSkipFrequency.Value;
         }
     }
 }

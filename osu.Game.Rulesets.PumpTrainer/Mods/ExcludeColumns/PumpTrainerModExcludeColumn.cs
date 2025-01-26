@@ -20,7 +20,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods.ExcludeColumns
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.BeatmapWideGeneratorSettings.AllowedColumns.Remove(ExcludedColumn);
+            pumpBeatmapConverter.HitObjectGenerator.Settings.AllowedColumns.Remove(ExcludedColumn);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         {
             var pumpBeatmapConverter = (PumpTrainerBeatmapConverter)beatmapConverter;
 
-            pumpBeatmapConverter.BeatmapWideGeneratorSettings.FarColumnsFrequency = FarColumnsFrequency.Value;
+            pumpBeatmapConverter.HitObjectGenerator.Settings.FarColumnsFrequency = FarColumnsFrequency.Value;
         }
     }
 }
