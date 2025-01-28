@@ -20,7 +20,7 @@ namespace osu.Game.Rulesets.PumpTrainer.Mods
         public override string Acronym => "SD";
         public override LocalisableString Description => "Play consistently generated charts.";
         public override double ScoreMultiplier => 1;
-        public override ModType Type => ModType.DifficultyReduction;
+        public override ModType Type => ModType.Automationmod;
 
         public void ApplyToBeatmapConverter(IBeatmapConverter beatmapConverter)
         {

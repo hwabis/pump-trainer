@@ -38,7 +38,6 @@ namespace osu.Game.Rulesets.PumpTrainer
                     {
                         new PumpTrainerModNoFarColumns(),
                         new PumpTrainerModHalfTime(),
-                        new PumpTrainerModSeeded(),
                     };
 
                 case ModType.DifficultyIncrease:
@@ -67,7 +66,11 @@ namespace osu.Game.Rulesets.PumpTrainer
                     };
 
                 case ModType.Automation:
-                    return new[] { new PumpTrainerModAutoplay() };
+                    return new Mod[]
+                    {
+                        new PumpTrainerModAutoplay(),
+                        new PumpTrainerModSeeded(),
+                    };
 
                 default:
                     return Array.Empty<Mod>();
